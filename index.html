@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Стани отличник</title>
+
+    <link rel="stylesheet" href="style.css">
+    <script src="game.js" defer></script>
+</head>
+
+<body>
+
+<div class="game-container">
+
+    <div class="main-box">
+
+        <div id="startScreen" class="start-screen">
+    <div class="hero-badge">🎓 Образователна игра</div>
+
+    <h1 class="title">Стани отличник</h1>
+
+    <p class="subtitle">
+        Провери знанията си, използвай жокери и стигни до <strong>Отличен 6!</strong>
+    </p>
+
+    <div class="menu-cards">
+        <div class="menu-card">
+            <div class="menu-icon">❓</div>
+            <h3>12 въпроса</h3>
+            <p>Отговаряй правилно и се изкачвай по стълбицата.</p>
+        </div>
+
+        <div class="menu-card">
+            <div class="menu-icon">🧠</div>
+            <h3>3 жокера</h3>
+            <p>50/50, помощ от съученик и помощ от учител.</p>
+        </div>
+
+        <div class="menu-card">
+            <div class="menu-icon">🏆</div>
+            <h3>Цел: 6.00</h3>
+            <p>Стигни до последния въпрос и стани отличник.</p>
+        </div>
+    </div>
+
+    <div class="menu-actions">
+        <button id="startBtn" class="start-btn big-start">Започни играта</button>
+        <a href="customize.html" class="customize-btn">Персонализирай въпросите</a>
+    </div>
+</div>
+
+        <div id="gameScreen" class="hidden">
+            <h1 class="title">Стани отличник</h1>
+
+            <div class="question-info">
+                <span id="questionNumber">Въпрос 1</span>
+                <span id="currentGrade">Оценка: 2.50</span>
+            </div>
+
+            <div id="questionText" class="question-box"></div>
+
+            <div class="answers">
+                <button class="answer-btn"></button>
+                <button class="answer-btn"></button>
+                <button class="answer-btn"></button>
+                <button class="answer-btn"></button>
+            </div>
+
+            <div class="lifelines">
+    <button id="fiftyBtn" class="life-btn text-life" title="50/50">
+        <span>50/50</span>
+    </button>
+
+    <button id="friendBtn" class="life-btn image-life" title="Помощ от съученик">
+        <img src="d:\BudiOtl\photos\student.png" alt="Помощ от съученик">
+        <span>Съученик</span>
+    </button>
+
+    <button id="teacherBtn" class="life-btn image-life" title="Помощ от учител">
+        <img src="d:\BudiOtl\photos\teacher.png" alt="Помощ от учител">
+        <span>Учител</span>
+    </button>
+</div>
+
+            <div id="messageBox" class="message-box">
+                Избери верен отговор.
+            </div>
+
+            <div class="controls">
+    <button id="nextBtn" class="next-btn">Следващ въпрос</button>
+    <button id="menuBtn" class="menu-btn">Към менюто</button>
+</div>
+        </div>
+
+        <div id="endScreen" class="end-screen hidden">
+            <h1 class="title">Край на играта</h1>
+            <div id="finalGrade" class="result-grade"></div>
+            <p id="finalMessage"></p>
+            <button id="restartBtn" class="restart-btn">Играй отново</button>
+            <button id="endMenuBtn" class="menu-btn">Към менюто</button>
+        </div>
+
+    </div>
+
+    <div class="side-box">
+    <h2>Стълбица на знанията</h2>
+
+    <div id="menuSide" class="menu-side">
+        <div class="side-big-icon">📚</div>
+
+        <div class="side-tip">
+            <strong>Как се играе?</strong>
+            <p>Всеки верен отговор те качва по-близо до оценка 6.00.</p>
+        </div>
+
+        <div class="side-tip">
+            <strong>Жокери</strong>
+            <p>Използвай ги внимателно — всеки жокер може само веднъж.</p>
+        </div>
+
+        <div class="side-tip">
+            <strong>Персонализация</strong>
+            <p>Можеш да създадеш свои 12 въпроса и да играеш с тях.</p>
+        </div>
+    </div>
+
+    <ul id="levelsList" class="levels hidden"></ul>
+</div>
+
+</div>
+
+</body>
+</html>

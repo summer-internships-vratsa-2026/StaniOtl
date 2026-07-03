@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Персонализирай въпросите</title>
+
+    <link rel="stylesheet" href="style.css">
+    <script src="customize.js" defer></script>
+</head>
+
+<body>
+
+<div class="form-box">
+    <h1 class="title">Персонализирай въпросите</h1>
+    <p class="subtitle">Създай свои въпроси за играта „Стани отличник“</p>
+
+    <div class="form-group">
+        <label for="questionInput">Въпрос</label>
+        <textarea id="questionInput" placeholder="Напиши въпроса тук..."></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="answerA">Отговор A</label>
+        <input type="text" id="answerA" placeholder="Първи отговор">
+    </div>
+
+    <div class="form-group">
+        <label for="answerB">Отговор B</label>
+        <input type="text" id="answerB" placeholder="Втори отговор">
+    </div>
+
+    <div class="form-group">
+        <label for="answerC">Отговор C</label>
+        <input type="text" id="answerC" placeholder="Трети отговор">
+    </div>
+
+    <div class="form-group">
+        <label for="answerD">Отговор D</label>
+        <input type="text" id="answerD" placeholder="Четвърти отговор">
+    </div>
+
+    <div class="form-group">
+        <label for="correctAnswer">Верен отговор</label>
+        <select id="correctAnswer">
+            <option value="0">A</option>
+            <option value="1">B</option>
+            <option value="2">C</option>
+            <option value="3">D</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="teacherHint">Подсказка от учител</label>
+        <textarea id="teacherHint" placeholder="Напиши подсказка..."></textarea>
+    </div>
+
+    <div id="messageBox" class="message-box">
+    Попълни въпроса и натисни „Добави въпрос“.
+</div>
+
+<div id="questionCounter" class="message-box">
+    Добавени въпроси: 0 / 12
+</div>
+
+    <div class="form-buttons">
+        <button id="addQuestionBtn" class="start-btn">Добави въпрос</button>
+        <button id="clearQuestionsBtn" class="restart-btn">Изтрий всички персонализирани въпроси</button>
+        <a href="index.html" class="customize-btn">Към менюто</a>
+    </div>
+
+    <div class="saved-questions">
+        <h2 style="color: #f5c542; margin-bottom: 15px;">Запазени въпроси</h2>
+        <div id="questionsList"></div>
+    </div>
+</div>
+
+</body>
+</html>

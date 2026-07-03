@@ -732,3 +732,54 @@ body {
 .hidden {
     display: none !important;
 }
+.site-logo {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24px;
+}
+
+.site-logo img {
+    width: 100%;
+    max-width: 520px;
+    height: auto;
+    border-radius: 18px;
+    border: 2px solid #f5c542;
+    box-shadow: 0 0 25px rgba(245, 197, 66, 0.25);
+    object-fit: cover;
+}
+/* Лого като фон на главното меню */
+#startScreen {
+    position: relative;
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            rgba(5, 10, 45, 0.78),
+            rgba(5, 10, 45, 0.88)
+        ),
+        url("photos/Gemini_Generated_Image_dytoowdytoowdyto.jpg");
+
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 78%;
+    border-radius: 20px;
+}
+
+/* Всички елементи да стоят над фона */
+#startScreen > * {
+    position: relative;
+    z-index: 2;
+}
+
+/* Леко по-тъмни карти, за да се чете добре върху логото */
+#startScreen .menu-card {
+    background: rgba(12, 20, 65, 0.82);
+    backdrop-filter: blur(2px);
+}
+
+/* По-ясни бутони върху фона */
+#startScreen .menu-actions {
+    position: relative;
+    z-index: 3;
+}

@@ -2850,3 +2850,223 @@ body {
         margin-top: 0 !important;
     }
 }
+/* ===================================== */
+/* DESKTOP RESET / RESTORE */
+/* Важи само за компютър */
+/* ===================================== */
+
+@media (min-width: 769px) {
+
+    body {
+        overflow-x: hidden;
+    }
+
+    /* Горната лента с email и Изход да стои горе вдясно */
+    .top-auth-bar {
+        position: fixed !important;
+        top: 24px !important;
+        right: 50px !important;
+
+        width: auto !important;
+        max-width: 520px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+
+        z-index: 1000 !important;
+    }
+
+    .top-auth-bar .account-widget {
+        position: static !important;
+
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-end !important;
+        gap: 12px !important;
+
+        width: auto !important;
+        max-width: 520px !important;
+
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+
+    .top-auth-bar .account-widget span,
+    .top-auth-bar .account-widget .user-email,
+    .top-auth-bar .account-widget #userEmail {
+        max-width: 260px !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        white-space: nowrap !important;
+
+        font-size: 15px !important;
+        color: white !important;
+    }
+
+    .top-auth-bar .account-widget button,
+    .top-auth-bar .account-widget #logoutBtn,
+    .top-auth-bar .account-widget .logout-btn {
+        width: auto !important;
+        min-width: 90px !important;
+        height: 44px !important;
+
+        padding: 0 22px !important;
+        margin: 0 !important;
+
+        border-radius: 24px !important;
+        font-size: 15px !important;
+    }
+
+    /* Логото да си стои вляво както преди */
+    .corner-logo,
+    .desktop-logo {
+        display: block !important;
+        position: fixed !important;
+
+        top: 65px !important;
+        left: 65px !important;
+
+        width: 130px !important;
+        height: auto !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        z-index: 100 !important;
+    }
+
+    .corner-logo img,
+    .desktop-logo img {
+        width: 100% !important;
+        height: auto !important;
+        display: block !important;
+    }
+
+    /* Основният контейнер да се центрира нормално */
+    .game-container {
+        width: 92% !important;
+        max-width: 1350px !important;
+
+        margin: 120px auto 0 !important;
+        padding: 0 !important;
+
+        display: grid !important;
+        grid-template-columns: 1fr 340px !important;
+        gap: 28px !important;
+
+        align-items: stretch !important;
+        justify-content: center !important;
+    }
+
+    .main-box,
+    .side-box {
+        width: auto !important;
+        max-width: none !important;
+        min-width: 0 !important;
+
+        margin: 0 !important;
+        padding: 34px !important;
+
+        border-radius: 24px !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Менюто да бъде пак в 3 колони */
+    .menu-cards {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 20px !important;
+
+        width: 100% !important;
+        margin: 34px 0 30px !important;
+    }
+
+    .menu-card {
+        width: auto !important;
+        min-height: 170px !important;
+        padding: 24px 18px !important;
+    }
+
+    /* Бутоните да са един до друг */
+    .menu-actions {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: center !important;
+        align-items: center !important;
+        gap: 18px !important;
+        flex-wrap: wrap !important;
+    }
+
+    .menu-actions .start-btn,
+    .menu-actions .customize-btn {
+        width: 280px !important;
+        height: 66px !important;
+        font-size: 18px !important;
+    }
+
+    /* Заглавия desktop */
+    .title,
+    .game-title,
+    .start-screen h1 {
+        font-size: 52px !important;
+        line-height: 1.15 !important;
+        letter-spacing: 4px !important;
+        text-align: center !important;
+    }
+
+    .subtitle {
+        font-size: 20px !important;
+        text-align: center !important;
+    }
+
+    .hero-badge {
+        width: auto !important;
+        font-size: 17px !important;
+        padding: 10px 22px !important;
+        margin-bottom: 20px !important;
+    }
+
+    /* Странична кутия desktop */
+    .side-box {
+        order: initial !important;
+    }
+
+    .side-box h2 {
+        font-size: 28px !important;
+        line-height: 1.2 !important;
+        text-align: center !important;
+    }
+
+    .side-tip {
+        padding: 18px !important;
+        margin-bottom: 16px !important;
+    }
+
+    .side-tip strong {
+        font-size: 18px !important;
+    }
+
+    .side-tip p {
+        font-size: 16px !important;
+    }
+
+    .side-big-icon {
+        font-size: 68px !important;
+    }
+
+    /* Формите и бутоните да не остават mobile */
+    .form-buttons,
+    .controls,
+    .login-buttons,
+    .group-actions {
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: center !important;
+        flex-wrap: wrap !important;
+    }
+
+    .controls button {
+        width: auto !important;
+        min-width: 150px !important;
+    }
+}

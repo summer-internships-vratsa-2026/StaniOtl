@@ -1181,3 +1181,469 @@ select:focus-visible {
         padding: 14px;
     }
 }
+.login-box {
+    width: 100%;
+    max-width: 560px;
+    padding: 42px 34px;
+
+    background: rgba(5, 10, 45, 0.92);
+    border: 2px solid #f5c542;
+    border-radius: 22px;
+
+    box-shadow:
+        0 0 35px rgba(245, 197, 66, 0.12),
+        0 0 70px rgba(0, 0, 0, 0.35);
+
+    position: relative;
+    overflow: hidden;
+}
+
+.login-box::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background-image: url("images/logo.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 360px;
+
+    opacity: 0.035;
+    pointer-events: none;
+}
+
+.login-box > * {
+    position: relative;
+    z-index: 2;
+}
+/* ========================= */
+/* MOBILE FIX FOR THE SITE */
+/* ========================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+/* Телефон */
+@media (max-width: 768px) {
+
+    body {
+        padding: 0;
+        margin: 0;
+        overflow-x: hidden;
+    }
+
+    /* Основният контейнер да стане една колона */
+    .game-container {
+        width: 100%;
+        max-width: 100%;
+        padding: 16px;
+        margin: 0 auto;
+
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .main-box,
+    .side-box,
+    .form-box,
+    .login-box {
+        width: 100%;
+        max-width: 100%;
+        padding: 22px 16px;
+        margin: 0 auto;
+        border-radius: 18px;
+    }
+
+    /* Логото да не стои залепено вляво и да не бута сайта */
+    .corner-logo {
+        position: static;
+        width: 130px;
+        margin: 18px auto 10px;
+        display: block;
+        text-align: center;
+    }
+
+    .corner-logo img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    /* Ако имаш лого като отделен site-logo */
+    .site-logo img {
+        max-width: 220px;
+        width: 80%;
+        height: auto;
+        object-fit: contain;
+    }
+
+    /* Заглавия */
+    .title,
+    .game-title,
+    .start-screen h1,
+    #gameScreen h1,
+    #endScreen h1 {
+        font-size: 34px;
+        line-height: 1.15;
+        text-align: center;
+        letter-spacing: 2px;
+        word-break: normal;
+    }
+
+    .subtitle {
+        font-size: 18px;
+        line-height: 1.5;
+        text-align: center;
+    }
+
+    .hero-badge {
+        width: 100%;
+        font-size: 16px;
+        padding: 12px;
+        text-align: center;
+    }
+
+    /* Картите в менюто една под друга */
+    .menu-cards {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 18px;
+        width: 100%;
+    }
+
+    .menu-card {
+        width: 100%;
+        min-height: auto;
+        padding: 24px 18px;
+    }
+
+    .menu-card h3 {
+        font-size: 25px;
+    }
+
+    .menu-card p {
+        font-size: 20px;
+        line-height: 1.5;
+    }
+
+    /* Бутоните един под друг */
+    .menu-actions,
+    .controls,
+    .form-buttons,
+    .login-buttons {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 14px;
+        width: 100%;
+    }
+
+    .menu-actions .start-btn,
+    .menu-actions .customize-btn,
+    .controls button,
+    .form-buttons button,
+    .form-buttons a,
+    .login-buttons button,
+    .start-btn,
+    .customize-btn,
+    .restart-btn,
+    .menu-btn,
+    .default-btn {
+        width: 100%;
+        max-width: 100%;
+        height: 58px;
+        font-size: 17px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    /* Страничната кутия да падне под менюто */
+    .side-box {
+        order: 2;
+    }
+
+    .side-box h2 {
+        font-size: 34px;
+        line-height: 1.2;
+        text-align: center;
+    }
+
+    .side-tip {
+        padding: 22px;
+    }
+
+    .side-tip strong {
+        font-size: 22px;
+    }
+
+    .side-tip p {
+        font-size: 21px;
+        line-height: 1.45;
+    }
+
+    .side-big-icon {
+        font-size: 70px;
+    }
+
+    /* Екран с въпрос */
+    .question-info {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+        text-align: center;
+    }
+
+    .question-box {
+        width: 100%;
+        padding: 20px 14px;
+        margin-top: 16px;
+    }
+
+    #questionText {
+        font-size: 22px;
+        line-height: 1.4;
+        text-align: center;
+    }
+
+    .answers {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 14px;
+        width: 100%;
+    }
+
+    .answer-btn {
+        width: 100%;
+        min-height: 58px;
+        font-size: 18px;
+        line-height: 1.4;
+        text-align: left;
+        padding: 14px 18px;
+    }
+
+    /* Жокерите да не се чупят */
+    .lifelines {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        width: 100%;
+        margin: 20px 0;
+    }
+
+    .life-btn,
+    .text-life,
+    .image-life {
+        width: 100%;
+        height: 105px;
+        min-width: 0;
+        padding: 6px;
+    }
+
+    .image-life img {
+        width: 54px;
+        height: 54px;
+    }
+
+    .image-life span {
+        font-size: 12px;
+    }
+
+    .text-life {
+        font-size: 21px;
+    }
+
+    /* Съобщения */
+    .message-box {
+        width: 100%;
+        font-size: 17px;
+        line-height: 1.5;
+        padding: 16px;
+        margin: 16px 0;
+    }
+
+    /* Стълбица */
+    .levels {
+        width: 100%;
+        padding: 0;
+    }
+
+    .levels li {
+        font-size: 16px;
+        padding: 9px 12px;
+    }
+
+    /* Персонализиране */
+    .customize-layout {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 18px;
+        width: 100%;
+    }
+
+    .customize-main,
+    .customize-side {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .customize-side {
+        position: static;
+        order: -1;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select,
+    input,
+    textarea,
+    select {
+        width: 100%;
+        max-width: 100%;
+        font-size: 17px;
+    }
+
+    textarea {
+        min-height: 90px;
+    }
+
+    .group-box {
+        width: 100%;
+        padding: 18px;
+    }
+
+    .group-box h2 {
+        font-size: 25px;
+        line-height: 1.3;
+    }
+
+    .saved-question,
+    .group-item {
+        width: 100%;
+        font-size: 16px;
+        overflow-wrap: break-word;
+    }
+
+    .group-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .group-actions button {
+        width: 100%;
+        min-height: 46px;
+    }
+
+    /* Login page */
+    .login-box {
+        max-width: 92%;
+        padding: 30px 18px;
+    }
+
+    .login-box h1 {
+        font-size: 38px;
+    }
+
+    /* Горна лента с email + изход */
+    .user-bar,
+    .auth-bar,
+    .top-user-bar,
+    .user-info {
+        width: 100%;
+        max-width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        padding: 10px 16px;
+        position: static;
+    }
+
+    .user-bar span,
+    .auth-bar span,
+    .top-user-bar span,
+    .user-info span {
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        text-align: center;
+    }
+
+    #logoutBtn,
+    .logout-btn {
+        width: 100%;
+        height: 52px;
+        border-radius: 28px;
+    }
+}
+@media (max-width: 420px) {
+
+    .game-container {
+        padding: 12px;
+    }
+
+    .main-box,
+    .side-box,
+    .form-box {
+        padding: 18px 12px;
+    }
+
+    .title,
+    .game-title,
+    .start-screen h1,
+    #gameScreen h1 {
+        font-size: 30px;
+        letter-spacing: 1px;
+    }
+
+    .side-box h2 {
+        font-size: 30px;
+    }
+
+    .menu-card h3 {
+        font-size: 23px;
+    }
+
+    .menu-card p,
+    .side-tip p {
+        font-size: 19px;
+    }
+
+    .lifelines {
+        grid-template-columns: 1fr;
+    }
+
+    .life-btn,
+    .text-life,
+    .image-life {
+        height: 86px;
+    }
+
+    .image-life {
+        flex-direction: row;
+    }
+
+    .image-life img {
+        width: 48px;
+        height: 48px;
+    }
+
+    .answer-btn {
+        font-size: 17px;
+    }
+}
+.hidden {
+    display: none !important;
+}

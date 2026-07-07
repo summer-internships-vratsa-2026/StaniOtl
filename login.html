@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Вход — Стани отличник</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/umd/supabase.min.js"></script>
+    <script src="supabase-config.js"></script>
+    <script src="login.js" defer></script>
+</head>
+<body>
+    <div class="center-page">
+        <div class="form-box">
+            <h1 class="title">Вход</h1>
+
+            <div class="form-group">
+                <label for="emailInput">Email</label>
+                <input id="emailInput" type="email" placeholder="you@example.com" autocomplete="email">
+            </div>
+
+            <div class="form-group">
+                <label for="passwordInput">Парола</label>
+                <div class="password-input-wrap">
+                    <input id="passwordInput" type="password" placeholder="Парола" autocomplete="current-password" minlength="6">
+                    <button type="button" id="togglePasswordBtn" class="password-toggle-btn" aria-label="Покажи/скрий парола">👁</button>
+                </div>
+            </div>
+
+            <div class="form-buttons">
+                <button id="signInBtn" class="start-btn">Вход</button>
+                <button id="signUpBtn" class="menu-btn">Регистрация</button>
+                <button id="signOutBtn" class="menu-btn" style="display:none;">Изход</button>
+            </div>
+
+            <div id="loginMessage" class="message-box" style="margin-top:15px;">Въведи данни за вход или регистрация.</div>
+
+            
+        </div>
+    </div>
+</body>
+</html>

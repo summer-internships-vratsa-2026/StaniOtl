@@ -9,15 +9,33 @@ body {
     min-height: 100vh;
     background: radial-gradient(circle at top, #263b8f, #090d2b 70%);
     color: white;
+    padding: 20px 20px 40px;
     display: flex;
-    justify-content: center;
     align-items: center;
-    padding: 20px;
+    justify-content: center;
+}
+
+button,
+a,
+input,
+textarea,
+select {
+    font: inherit;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+    outline: 3px solid #35ff7a;
+    outline-offset: 3px;
 }
 
 .game-container {
     width: 100%;
     max-width: 1100px;
+    margin: 0 auto;
     display: grid;
     grid-template-columns: 1fr 280px;
     gap: 20px;
@@ -87,6 +105,9 @@ body {
     cursor: pointer;
     transition: 0.25s;
     text-align: left;
+    line-height: 1.35;
+    min-height: 74px;
+    overflow-wrap: anywhere;
 }
 
 .answer-btn:hover:not(:disabled) {
@@ -203,6 +224,15 @@ body {
     text-align: center;
 }
 
+.end-screen {
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
 .start-screen p,
 .end-screen p {
     margin: 18px 0;
@@ -221,9 +251,46 @@ body {
     margin: 20px 0;
 }
 
+.confetti-layer {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 999;
+}
+
+.confetti-piece {
+    position: absolute;
+    top: -10vh;
+    width: 10px;
+    height: 18px;
+    opacity: 0.95;
+    border-radius: 2px;
+    animation: confetti-fall linear forwards;
+}
+
+@keyframes confetti-fall {
+    0% {
+        transform: translate3d(0, 0, 0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translate3d(var(--drift), 110vh, 0) rotate(720deg);
+        opacity: 0;
+    }
+}
+
 @media (max-width: 850px) {
     .game-container {
         grid-template-columns: 1fr;
+    }
+
+    .customize-page {
+        grid-template-columns: 1fr;
+    }
+
+    .instructions-sidebar {
+        position: static;
     }
 
     .answers {
@@ -238,6 +305,30 @@ body {
         font-size: 20px;
     }
 }
+.customize-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 20px;
+    align-items: start;
+}
+
+.instructions-sidebar {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: min(300px, calc(100vw - 40px));
+    z-index: 20;
+}
+
+.instructions-sidebar .message-box {
+    margin-bottom: 0;
+}
+
 .customize-btn {
     display: inline-block;
     margin-top: 15px;
@@ -291,6 +382,37 @@ body {
 .form-group textarea {
     min-height: 80px;
     resize: vertical;
+}
+
+.password-input-wrap {
+    position: relative;
+}
+
+.password-input-wrap input {
+    padding-right: 48px;
+}
+
+.password-toggle-btn {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+    color: #f5c542;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 4px;
+}
+
+.question-group-label {
+    margin-bottom: 10px;
+    text-align: center;
+    color: #f5c542;
+    font-weight: bold;
+    font-size: 14px;
+    letter-spacing: 0.3px;
+    overflow-wrap: anywhere;
 }
 
 .form-buttons {
@@ -442,6 +564,9 @@ body {
     border-radius: 18px;
     padding: 18px 12px;
     transition: 0.25s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .menu-card:hover {
@@ -732,54 +857,327 @@ body {
 .hidden {
     display: none !important;
 }
-.site-logo {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-bottom: 24px;
+.corner-logo {
+    position: fixed;
+    top: 45px;
+    left: 18px;
+    z-index: 1000;
+
+    display: block;
+    width: 220px;
+    text-decoration: none;
 }
 
-.site-logo img {
+.corner-logo img {
     width: 100%;
-    max-width: 520px;
     height: auto;
+    display: block;
+
+    border-radius: 16px;
+}
+@media (max-width: 900px) {
+    body {
+        align-items: flex-start;
+        padding: 14px;
+    }
+
+    .corner-logo {
+        position: static;
+        margin: 0 auto 16px;
+        width: 150px;
+    }
+}
+.group-box {
+    margin-top: 24px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(245, 197, 66, 0.45);
     border-radius: 18px;
-    border: 2px solid #f5c542;
-    box-shadow: 0 0 25px rgba(245, 197, 66, 0.25);
-    object-fit: cover;
+    padding: 18px;
 }
-/* Лого като фон на главното меню */
-#startScreen {
-    position: relative;
-    overflow: hidden;
 
-    background:
-        linear-gradient(
-            rgba(5, 10, 45, 0.78),
-            rgba(5, 10, 45, 0.88)
-        ),
-        url("photos/Gemini_Generated_Image_dytoowdytoowdyto.jpg");
+.group-box h2 {
+    color: #f5c542;
+    margin-bottom: 15px;
+}
 
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: 78%;
+.group-item {
+    background: rgba(12, 20, 65, 0.9);
+    border-left: 4px solid #f5c542;
+    border-radius: 12px;
+    padding: 14px;
+    margin-bottom: 12px;
+}
+
+.group-item.active-group {
+    border-left-color: #4267ff;
+    box-shadow: 0 0 14px rgba(53, 255, 122, 0.25);
+}
+
+.group-title {
+    color: #f5c542;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.group-info {
+    color: #d7ddff;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.group-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.group-actions button {
+    border: none;
+    padding: 9px 13px;
     border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
 }
 
-/* Всички елементи да стоят над фона */
-#startScreen > * {
-    position: relative;
-    z-index: 2;
+.use-group-btn {
+    background: #35ff7a;
+    color: #07103b;
 }
 
-/* Леко по-тъмни карти, за да се чете добре върху логото */
-#startScreen .menu-card {
-    background: rgba(12, 20, 65, 0.82);
-    backdrop-filter: blur(2px);
+.edit-group-btn {
+    background: #4267ff;
+    color: white;
 }
 
-/* По-ясни бутони върху фона */
-#startScreen .menu-actions {
-    position: relative;
-    z-index: 3;
+.delete-group-btn {
+    background: #a10f20;
+    color: white;
+}
+.default-btn {
+    height: 60px;
+    padding: 0 28px;
+    margin: 0;
+
+    border: none;
+    border-radius: 30px;
+
+    background: linear-gradient(135deg, #4267ff, #4267ff);
+    color: white;
+
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.25s;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Centered layout for standalone pages like login */
+.center-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.center-page .form-box {
+    max-width: 820px;
+    width: 100%;
+    margin: 0;
+}
+
+/* Make buttons inside form-box uniform size */
+.form-box .form-buttons .start-btn,
+.form-box .form-buttons .menu-btn {
+    width: 250px;
+    height: 58px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Account widget styles */
+.account-widget {
+    position: absolute;
+    top: 18px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.account {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #f5c542;
+    color: #07103b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+}
+
+.acct-name {
+    color: #d7ddff;
+    font-size: 14px;
+    max-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.default-btn:hover {
+    background: linear-gradient(135deg, #6d88ff, #6d88ff);
+    transform: translateY(-2px);
+}
+.help-timer-box {
+    background: rgba(12, 20, 65, 0.95);
+    border: 2px solid #f5c542;
+    border-radius: 16px;
+    padding: 16px;
+    text-align: center;
+    box-shadow: 0 0 18px rgba(245, 197, 66, 0.2);
+}
+
+.help-timer-title {
+    color: #f5c542;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.help-question {
+    color: #ffffff;
+    font-size: 17px;
+    margin-bottom: 14px;
+    line-height: 1.4;
+}
+
+.help-countdown {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+
+    background: linear-gradient(135deg, #f5c542, #d49b00);
+    color: #07103b;
+
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.help-small-text {
+    color: #d7ddff;
+    font-size: 14px;
+}
+.customize-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: 24px;
+    align-items: start;
+}
+
+.customize-main {
+    min-width: 0;
+}
+
+.customize-side {
+    position: sticky;
+    top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.side-message {
+    margin: 0;
+    width: 100%;
+    min-height: 80px;
+}
+
+/* За телефон и по-малки екрани */
+@media (max-width: 1100px) {
+    .customize-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .customize-side {
+        position: static;
+        order: -1;
+    }
+}
+
+@media (max-width: 560px) {
+    .game-container {
+        width: 100%;
+        gap: 14px;
+    }
+
+    .main-box,
+    .side-box,
+    .form-box {
+        padding: 18px;
+        border-radius: 16px;
+    }
+
+    .title {
+        font-size: 30px;
+        line-height: 1.08;
+    }
+
+    .subtitle {
+        font-size: 16px;
+    }
+
+    .menu-actions .start-btn,
+    .menu-actions .customize-btn,
+    .form-box .form-buttons .start-btn,
+    .form-box .form-buttons .menu-btn {
+        width: 100%;
+        max-width: 320px;
+    }
+
+    .question-info,
+    .controls,
+    .form-buttons {
+        gap: 10px;
+    }
+
+    .question-info {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .life-btn,
+    .image-life,
+    .text-life {
+        width: 94px;
+        height: 110px;
+    }
+
+    .image-life img {
+        width: 58px;
+        height: 58px;
+    }
+
+    .answer-btn {
+        border-radius: 18px;
+        font-size: 16px;
+        padding: 14px;
+    }
 }

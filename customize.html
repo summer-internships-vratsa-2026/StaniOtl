@@ -6,17 +6,33 @@
     <title>Персонализирай въпросите</title>
 
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script src="auth-ui.js" defer></script>
     <script src="customize.js" defer></script>
 </head>
 
 <body>
+<a href="index.html" class="corner-logo">
+    <img src="photos/logo.png" alt="Стани отличник лого">
+</a>
 
-<div class="form-box">
-    <header class="site-logo">
-    <img src="photos/Gemini_Generated_Image_dytoowdytoowdyto.jpg" alt="Стани отличник лого">
-</header>
-    <h1 class="title">Персонализирай въпросите</h1>
+<div id="accountWidget" class="account-widget"></div>
+
+<div class="customize-page">
+    <div class="form-box">
+        <h1 class="title">Персонализирай въпросите</h1>
     <p class="subtitle">Създай свои въпроси за играта „Стани отличник“</p>
+
+    <div class="form-group">
+        <label for="teacherHint">Подсказка от учител</label>
+        <textarea id="teacherHint" placeholder="Напиши подсказка..."></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="explanationInput">Пояснение след отговор</label>
+        <textarea id="explanationInput" placeholder="Обясни защо правилният отговор е правилен..."></textarea>
+    </div>
 
     <div class="form-group">
         <label for="questionInput">Въпрос</label>
@@ -53,29 +69,66 @@
         </select>
     </div>
 
+    <div class="group-box">
+    <h2>Настройка на таймера за помощ</h2>
+
     <div class="form-group">
-        <label for="teacherHint">Подсказка от учител</label>
-        <textarea id="teacherHint" placeholder="Напиши подсказка..."></textarea>
+        <label for="helpTimerInput">Време за помощ в секунди</label>
+        <input type="number" id="helpTimerInput" min="5" max="120" value="30">
     </div>
 
-    <div id="messageBox" class="message-box">
-    Попълни въпроса и натисни „Добави въпрос“.
+    <button id="saveTimerBtn" class="default-btn">
+        Запази таймера
+    </button>
 </div>
 
-<div id="questionCounter" class="message-box">
-    Добавени въпроси: 0 / 12
+<div class="group-box">
+    <h2>Запази група въпроси</h2>
+
+    <div class="form-group">
+        <label for="groupNameInput">Име на групата</label>
+        <input type="text" id="groupNameInput" placeholder="Например: История 5 клас">
+    </div>
+
+    <button id="saveGroupBtn" class="start-btn">Запази като готова група</button>
+</div>
+
+<div class="group-box">
+    <h2>Готови групи въпроси</h2>
+    <div id="groupsList"></div>
 </div>
 
     <div class="form-buttons">
-        <button id="addQuestionBtn" class="start-btn">Добави въпрос</button>
-        <button id="clearQuestionsBtn" class="restart-btn">Изтрий всички персонализирани въпроси</button>
-        <a href="index.html" class="customize-btn">Към менюто</a>
-    </div>
+    <button type="button" id="addQuestionBtn" class="start-btn">
+    Добави въпрос
+</button>
+
+<button type="button" id="clearQuestionsBtn" class="restart-btn">
+    Изтрий всички персонализирани въпроси
+</button>
+
+<button type="button" id="defaultQuestionsBtn" class="default-btn">
+    Използвай стандартните въпроси
+</button>
+
+    <a href="index.html" class="customize-btn">Към менюто</a>
+</div>
 
     <div class="saved-questions">
         <h2 style="color: #f5c542; margin-bottom: 15px;">Запазени въпроси</h2>
         <div id="questionsList"></div>
     </div>
+    </div>
+
+    <aside class="instructions-sidebar">
+        <div id="messageBox" class="message-box">
+            Попълни въпроса и натисни „Добави въпрос“.
+        </div>
+
+        <div id="questionCounter" class="message-box">
+            Добавени въпроси: 0 / 15
+        </div>
+    </aside>
 </div>
 
 </body>

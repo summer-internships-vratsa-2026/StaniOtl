@@ -6,12 +6,34 @@
     <title>Стани отличник</title>
 
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/umd/supabase.min.js"></script>
+    <script src="supabase-config.js"></script>
+    <script src="auth-ui.js" defer></script>
+    <script>
+        (async function () {
+            if (typeof supabaseClient === 'undefined') return;
+
+            try {
+                const { data } = await supabaseClient.auth.getSession();
+
+                if (!data || !data.session) {
+                    if (!location.pathname.endsWith('login.html')) {
+                        location.replace('login.html');
+                    }
+                }
+            } catch (e) {
+                console.warn('Session check failed', e);
+            }
+        })();
+    </script>
     <script src="game.js" defer></script>
 </head>
 
 <body>
-
-
+<a href="index.html" class="corner-logo">
+    <img src="photos/logo.png" alt="Стани отличник лого">
+</a>
+<div id="accountWidget" class="account-widget"></div>
 <div class="game-container">
 
     <div class="main-box">
@@ -25,11 +47,13 @@
         Провери знанията си, използвай жокери и стигни до <strong>Отличен 6!</strong>
     </p>
 
+    <div id="startGroupLabel" class="question-group-label">Източник: Стандартни въпроси</div>
+
     <div class="menu-cards">
         <div class="menu-card">
             <div class="menu-icon">❓</div>
-            <h3>12 въпроса</h3>
-            <p>Отговаряй правилно и се изкачвай по стълбицата.</p>
+            <h3>15 въпроса</h3>
+            <p>Отговори правилно на 15 въпроса и стигни до Отличен 6.00.</p>
         </div>
 
         <div class="menu-card">
@@ -46,18 +70,36 @@
     </div>
 
     <div class="menu-actions">
+       
         <button id="startBtn" class="start-btn big-start">Започни играта</button>
         <a href="customize.html" class="customize-btn">Персонализирай въпросите</a>
     </div>
 </div>
-  
 
         <div id="gameScreen" class="hidden">
             <h1 class="title">Стани отличник</h1>
 
+            <div id="gameGroupLabel" class="question-group-label">Източник: Стандартни въпроси</div>
+
             <div class="question-info">
                 <span id="questionNumber">Въпрос 1</span>
                 <span id="currentGrade">Оценка: 2.50</span>
+            </div>
+
+            <div class="lifelines">
+                <button id="fiftyBtn" class="life-btn text-life" title="50/50">
+                    <span>50/50</span>
+                </button>
+
+                <button id="friendBtn" class="life-btn image-life" title="Помощ от съученик">
+                    <img src="photos/student.png" alt="Помощ от съученик">
+                    <span>Съученик</span>
+                </button>
+
+                <button id="teacherBtn" class="life-btn image-life" title="Помощ от учител">
+                    <img src="photos/teacher.png" alt="Помощ от учител">
+                    <span>Учител</span>
+                </button>
             </div>
 
             <div id="questionText" class="question-box"></div>
@@ -68,22 +110,6 @@
                 <button class="answer-btn"></button>
                 <button class="answer-btn"></button>
             </div>
-
-            <div class="lifelines">
-    <button id="fiftyBtn" class="life-btn text-life" title="50/50">
-        <span>50/50</span>
-    </button>
-
-    <button id="friendBtn" class="life-btn image-life" title="Помощ от съученик">
-        <img src="d:\BudiOtl\photos\student.png" alt="Помощ от съученик">
-        <span>Съученик</span>
-    </button>
-
-    <button id="teacherBtn" class="life-btn image-life" title="Помощ от учител">
-        <img src="d:\BudiOtl\photos\teacher.png" alt="Помощ от учител">
-        <span>Учител</span>
-    </button>
-</div>
 
             <div id="messageBox" class="message-box">
                 Избери верен отговор.
@@ -123,7 +149,7 @@
 
         <div class="side-tip">
             <strong>Персонализация</strong>
-            <p>Можеш да създадеш свои 12 въпроса и да играеш с тях.</p>
+            <p>Можеш да създадеш свои 15 въпроса и да играеш с тях.</p>
         </div>
     </div>
 
@@ -131,7 +157,6 @@
 </div>
 
 </div>
-
 
 </body>
 </html>

@@ -2203,3 +2203,557 @@ body {
 .hidden {
     display: none !important;
 }
+/* ===================================== */
+/* REAL MOBILE FIX */
+/* ===================================== */
+
+@media (max-width: 768px) {
+
+    html,
+    body {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden !important;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        display: block !important;
+    }
+
+    /* Махаме страничното лого на телефон, защото застъпва email-а */
+    .corner-logo {
+        display: none !important;
+    }
+
+    /* Горна лента с email и Изход */
+    .user-bar,
+    .auth-bar,
+    .top-user-bar,
+    .user-info,
+    .logged-user,
+    .user-panel {
+        position: static !important;
+        width: calc(100vw - 28px) !important;
+        max-width: calc(100vw - 28px) !important;
+        margin: 14px auto 18px !important;
+        padding: 12px !important;
+
+        display: grid !important;
+        grid-template-columns: 44px 1fr auto !important;
+        align-items: center !important;
+        gap: 10px !important;
+
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+
+    /* Кръгчето с буквата P */
+    .user-avatar,
+    .avatar,
+    .profile-circle {
+        width: 44px !important;
+        height: 44px !important;
+        min-width: 44px !important;
+        border-radius: 50% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 20px !important;
+    }
+
+    /* Email-ът да не минава върху логото/бутона */
+    #userEmail,
+    #currentUserEmail,
+    .user-email,
+    .logged-email,
+    .user-info span,
+    .user-bar span,
+    .auth-bar span,
+    .top-user-bar span {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        white-space: nowrap !important;
+
+        font-size: 16px !important;
+        line-height: 1.2 !important;
+        text-align: left !important;
+        color: #ffffff !important;
+    }
+
+    #logoutBtn,
+    .logout-btn {
+        position: static !important;
+        width: auto !important;
+        min-width: 110px !important;
+        height: 58px !important;
+        padding: 0 22px !important;
+        margin: 0 !important;
+        border-radius: 32px !important;
+        font-size: 20px !important;
+        flex-shrink: 0 !important;
+    }
+
+    /* Основният layout на всички страници */
+    .game-container,
+    .customize-layout {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+
+        gap: 20px !important;
+        padding: 0 14px 24px !important;
+        margin: 0 auto !important;
+
+        box-sizing: border-box !important;
+        overflow: visible !important;
+    }
+
+    .main-box,
+    .side-box,
+    .form-box,
+    .login-box,
+    .customize-main,
+    .customize-side {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+
+        margin: 0 auto !important;
+        padding: 24px 18px !important;
+
+        box-sizing: border-box !important;
+        overflow: visible !important;
+        transform: none !important;
+    }
+
+    .main-box,
+    .side-box,
+    .form-box {
+        border-radius: 22px !important;
+    }
+
+    /* Страницата за персонализиране да не застъпва полетата */
+    .customize-side {
+        position: static !important;
+        order: 99 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 14px !important;
+    }
+
+    .customize-main {
+        order: 1 !important;
+    }
+
+    /* Съобщенията вече са нормални блокове, не overlay */
+    .message-box,
+    .side-message,
+    #messageBox,
+    #questionCounter {
+        position: static !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-height: auto !important;
+
+        margin: 14px 0 !important;
+        padding: 16px !important;
+
+        font-size: 18px !important;
+        line-height: 1.45 !important;
+
+        box-sizing: border-box !important;
+        overflow-wrap: break-word !important;
+        white-space: normal !important;
+        z-index: 1 !important;
+    }
+
+    /* Заглавията да не излизат от екрана */
+    .title,
+    .game-title,
+    .start-screen h1,
+    .form-box h1,
+    #gameScreen h1,
+    #endScreen h1 {
+        width: 100% !important;
+        max-width: 100% !important;
+
+        font-size: 34px !important;
+        line-height: 1.15 !important;
+        letter-spacing: 1px !important;
+
+        text-align: center !important;
+        overflow-wrap: break-word !important;
+        word-break: normal !important;
+
+        margin: 18px auto !important;
+    }
+
+    .subtitle,
+    .start-screen p {
+        width: 100% !important;
+        max-width: 100% !important;
+        font-size: 20px !important;
+        line-height: 1.5 !important;
+        text-align: center !important;
+    }
+
+    .hero-badge {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 auto 22px !important;
+        padding: 14px 12px !important;
+        font-size: 18px !important;
+        line-height: 1.3 !important;
+        text-align: center !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Менюто да е центрирано */
+    .start-screen,
+    #startScreen {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 24px 14px !important;
+
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+
+        text-align: center !important;
+        box-sizing: border-box !important;
+    }
+
+    .menu-cards {
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 18px !important;
+        margin: 26px 0 !important;
+    }
+
+    .menu-card {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-height: auto !important;
+        padding: 28px 18px !important;
+        box-sizing: border-box !important;
+    }
+
+    .menu-card h3 {
+        font-size: 28px !important;
+        line-height: 1.2 !important;
+    }
+
+    .menu-card p {
+        font-size: 21px !important;
+        line-height: 1.45 !important;
+    }
+
+    /* Всички бутони на телефон */
+    .menu-actions,
+    .controls,
+    .form-buttons,
+    .login-buttons,
+    .group-actions {
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 14px !important;
+    }
+
+    .start-btn,
+    .customize-btn,
+    .restart-btn,
+    .menu-btn,
+    .next-btn,
+    .default-btn,
+    .delete-btn,
+    .edit-group-btn,
+    .use-group-btn,
+    .delete-group-btn,
+    .menu-actions button,
+    .menu-actions a,
+    .form-buttons button,
+    .form-buttons a,
+    .controls button,
+    .group-actions button {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-height: 58px !important;
+        height: auto !important;
+
+        padding: 14px 18px !important;
+        margin: 0 !important;
+
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+
+        text-align: center !important;
+        font-size: 17px !important;
+        line-height: 1.25 !important;
+
+        box-sizing: border-box !important;
+    }
+
+    /* Полетата за персонализиране */
+    .form-group {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-bottom: 20px !important;
+        box-sizing: border-box !important;
+    }
+
+    .form-group label {
+        display: block !important;
+        width: 100% !important;
+        margin-bottom: 8px !important;
+
+        font-size: 18px !important;
+        line-height: 1.3 !important;
+
+        text-align: left !important;
+        white-space: normal !important;
+        word-break: normal !important;
+    }
+
+    input,
+    textarea,
+    select,
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+
+        font-size: 18px !important;
+        line-height: 1.4 !important;
+        padding: 14px !important;
+
+        box-sizing: border-box !important;
+    }
+
+    textarea {
+        min-height: 110px !important;
+        resize: vertical !important;
+    }
+
+    .group-box,
+    .saved-question,
+    .group-item {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 18px !important;
+        box-sizing: border-box !important;
+        overflow-wrap: break-word !important;
+    }
+
+    .group-box h2 {
+        font-size: 26px !important;
+        line-height: 1.25 !important;
+        text-align: left !important;
+    }
+
+    /* Дясната стълбица да пада под менюто */
+    .side-box {
+        order: 2 !important;
+    }
+
+    .side-box h2 {
+        font-size: 34px !important;
+        line-height: 1.2 !important;
+        text-align: center !important;
+    }
+
+    .side-tip {
+        padding: 22px !important;
+        margin-bottom: 18px !important;
+    }
+
+    .side-tip strong {
+        font-size: 23px !important;
+    }
+
+    .side-tip p {
+        font-size: 21px !important;
+        line-height: 1.45 !important;
+    }
+
+    /* Екран с въпрос */
+    .question-info {
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 8px !important;
+        text-align: center !important;
+    }
+
+    .question-box {
+        width: 100% !important;
+        padding: 20px 14px !important;
+        margin: 16px 0 !important;
+        box-sizing: border-box !important;
+    }
+
+    #questionText {
+        font-size: 22px !important;
+        line-height: 1.4 !important;
+        text-align: center !important;
+    }
+
+    .answers {
+        width: 100% !important;
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        gap: 14px !important;
+    }
+
+    .answer-btn {
+        width: 100% !important;
+        min-height: 58px !important;
+        font-size: 18px !important;
+        line-height: 1.35 !important;
+        padding: 14px 16px !important;
+        text-align: left !important;
+        box-sizing: border-box !important;
+    }
+
+    .lifelines {
+        width: 100% !important;
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 10px !important;
+        margin: 18px 0 !important;
+    }
+
+    .life-btn,
+    .text-life,
+    .image-life {
+        width: 100% !important;
+        min-width: 0 !important;
+        height: 96px !important;
+        padding: 6px !important;
+        box-sizing: border-box !important;
+    }
+
+    .image-life img {
+        width: 48px !important;
+        height: 48px !important;
+    }
+
+    .image-life span {
+        font-size: 12px !important;
+    }
+
+    .text-life {
+        font-size: 20px !important;
+    }
+
+    .levels {
+        width: 100% !important;
+        padding: 0 !important;
+    }
+
+    .levels li {
+        width: 100% !important;
+        font-size: 16px !important;
+        padding: 9px 12px !important;
+        box-sizing: border-box !important;
+    }
+}
+
+/* Много тесни телефони */
+@media (max-width: 430px) {
+
+    .game-container,
+    .main-box,
+    .side-box,
+    .form-box,
+    .login-box,
+    .customize-main,
+    .customize-side {
+        width: calc(100vw - 18px) !important;
+        max-width: calc(100vw - 18px) !important;
+    }
+
+    .game-container,
+    .customize-layout {
+        padding-left: 9px !important;
+        padding-right: 9px !important;
+    }
+
+    .main-box,
+    .side-box,
+    .form-box {
+        padding: 20px 12px !important;
+    }
+
+    .title,
+    .game-title,
+    .start-screen h1,
+    .form-box h1,
+    #gameScreen h1,
+    #endScreen h1 {
+        font-size: 30px !important;
+        letter-spacing: 0.5px !important;
+    }
+
+    .subtitle,
+    .start-screen p {
+        font-size: 18px !important;
+    }
+
+    .menu-card h3 {
+        font-size: 25px !important;
+    }
+
+    .menu-card p,
+    .side-tip p {
+        font-size: 20px !important;
+    }
+
+    .side-box h2 {
+        font-size: 30px !important;
+    }
+
+    .lifelines {
+        grid-template-columns: 1fr !important;
+    }
+
+    .life-btn,
+    .text-life,
+    .image-life {
+        height: 84px !important;
+    }
+
+    .image-life {
+        flex-direction: row !important;
+        gap: 10px !important;
+    }
+
+    .image-life img {
+        width: 45px !important;
+        height: 45px !important;
+    }
+}
+
+/* Последно правило */
+.hidden {
+    display: none !important;
+}

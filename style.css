@@ -2757,3 +2757,96 @@ body {
 .hidden {
     display: none !important;
 }
+/* TOP USER BAR FIX */
+
+.top-auth-bar {
+    width: min(1200px, calc(100% - 40px));
+    margin: 18px auto 18px;
+
+    display: grid;
+    grid-template-columns: 54px 1fr auto;
+    align-items: center;
+    gap: 14px;
+
+    position: relative;
+    z-index: 50;
+}
+
+.user-avatar {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #f5c542;
+    color: #07103b;
+
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.user-email {
+    color: white;
+    font-size: 17px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.logout-btn {
+    height: 54px;
+    padding: 0 34px;
+
+    border: none;
+    border-radius: 30px;
+
+    background: #4267ff;
+    color: white;
+
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Mobile fix */
+@media (max-width: 768px) {
+
+    .top-auth-bar {
+        width: calc(100vw - 28px);
+        margin: 16px auto 18px;
+
+        grid-template-columns: 50px minmax(0, 1fr) auto;
+        gap: 10px;
+    }
+
+    .user-avatar {
+        width: 50px;
+        height: 50px;
+        font-size: 22px;
+    }
+
+    .user-email {
+        font-size: 16px;
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    .logout-btn {
+        height: 54px;
+        padding: 0 22px;
+        font-size: 18px;
+        flex-shrink: 0;
+    }
+
+    .corner-logo {
+        display: none !important;
+    }
+
+    .game-container {
+        margin-top: 0 !important;
+    }
+}

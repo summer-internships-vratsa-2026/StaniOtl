@@ -21,6 +21,10 @@ const groupsList = document.getElementById("groupsList");
 
 const helpTimerInput = document.getElementById("helpTimerInput");
 const saveTimerBtn = document.getElementById("saveTimerBtn");
+const questionCountSelect = document.getElementById("questionCountSelect");
+const gradingStartInput = document.getElementById("gradingStartInput");
+const gradingEndInput = document.getElementById("gradingEndInput");
+const saveGradingBtn = document.getElementById("saveGradingBtn");
 
 const ACTIVE_GROUP_KEY = "activeQuestionGroupId";
 const DEFAULT_QUESTIONS_MODE_KEY = "useDefaultQuestions";
@@ -62,6 +66,13 @@ if (saveTimerBtn) {
     saveTimerBtn.addEventListener("click", function (event) {
         event.preventDefault();
         saveHelpTimer();
+    });
+}
+
+if (saveGradingBtn) {
+    saveGradingBtn.addEventListener("click", function (event) {
+        event.preventDefault();
+        saveGradingSettings();
     });
 }
 function escapeHTML(text) {
@@ -141,12 +152,79 @@ function getScopedSetting(key, fallback = null) {
     return value === null ? fallback : value;
 }
 
+function populateQuestionCountSelect() {
+    if (!questionCountSelect) {
+        return;
+    }
+
+    const poolSize = Math.max(getSavedQuestions().length, 15);
+    questionCountSelect.setAttribute("min", "3");
+    questionCountSelect.setAttribute("step", "1");
+    questionCountSelect.removeAttribute("max");
+
+    const savedValue = Number(localStorage.getItem(getScopedStorageKey("selectedQuestionCount")));
+    const fallback = Math.min(15, poolSize);
+    const selectedValue = Number.isFinite(savedValue) && savedValue >= 3
+        ? Math.min(savedValue, poolSize)
+        : fallback;
+
+    questionCountSelect.value = String(selectedValue);
+}
+
 function setScopedSetting(key, value) {
     localStorage.setItem(getScopedStorageKey(key), String(value));
 }
 
 function removeScopedSetting(key) {
     localStorage.removeItem(getScopedStorageKey(key));
+}
+
+function saveGradingSettings() {
+    const start = Number(gradingStartInput?.value);
+    const end = Number(gradingEndInput?.value);
+
+    if (!Number.isFinite(start) || !Number.isFinite(end)) {
+        messageBox.textContent = "Моля, въведи валидни стойности за началната и крайната оценка.";
+        return;
+    }
+
+    if (start >= end) {
+        messageBox.textContent = "Началната оценка трябва да е по-малка от крайната.";
+        return;
+    }
+
+    if (start < 2 || end > 6) {
+        messageBox.textContent = "Оценките трябва да са между 2.00 и 6.00.";
+        return;
+    }
+
+    setScopedSetting("gradingStart", start.toFixed(2));
+    setScopedSetting("gradingEnd", end.toFixed(2));
+    messageBox.textContent = `Оценяването е запазено: ${start.toFixed(2)} - ${end.toFixed(2)}.`;
+}
+
+function loadGradingSettings() {
+    if (gradingStartInput) {
+        const start = Number(localStorage.getItem(getScopedStorageKey("gradingStart")));
+        gradingStartInput.value = Number.isFinite(start) ? start.toFixed(2) : "2.00";
+    }
+
+    if (gradingEndInput) {
+        const end = Number(localStorage.getItem(getScopedStorageKey("gradingEnd")));
+        gradingEndInput.value = Number.isFinite(end) ? end.toFixed(2) : "6.00";
+    }
+}
+
+if (questionCountSelect) {
+    questionCountSelect.addEventListener("input", () => {
+        const value = Number(questionCountSelect.value);
+
+        if (Number.isFinite(value)) {
+            const normalizedValue = Math.max(3, Math.round(value));
+            questionCountSelect.value = String(normalizedValue);
+            setScopedSetting("selectedQuestionCount", normalizedValue);
+        }
+    });
 }
 
 function addQuestion() {
@@ -203,6 +281,7 @@ function addQuestion() {
 
 function renderQuestions() {
     const questions = getSavedQuestions();
+    populateQuestionCountSelect();
 
     if (!questionsList) {
         return;
@@ -508,3 +587,4 @@ function saveHelpTimer() {
 renderQuestions();
 renderQuestionGroups();
 loadHelpTimerSetting();
+loadGradingSettings();

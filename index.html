@@ -74,6 +74,11 @@
         </div>
     </div>
 
+    <div class="question-count-picker">
+        <label for="questionCountSelect">Брой въпроси</label>
+        <input type="number" id="questionCountSelect" min="3" step="1" value="15">
+    </div>
+
     <div class="menu-actions">
        
         <button id="startBtn" class="start-btn big-start">Започни играта</button>
@@ -83,14 +88,15 @@
 
         <div id="gameScreen" class="hidden">
             <h1 class="title">Стани отличник</h1>
+<div class="question-info">
+    <span id="questionNumber">1/15</span>
 
-            <div id="gameGroupLabel" class="question-group-label">Източник: Стандартни въпроси</div>
+    <div id="gameGroupLabel" class="question-group-label">
+        Източник: Стандартни въпроси
+    </div>
 
-            <div class="question-info">
-                <span id="questionNumber">Въпрос 1</span>
-                <span id="currentGrade">Оценка: 2.50</span>
-            </div>
-
+    <span id="currentGrade">Оценка: 3.00</span>
+</div>
             <div class="lifelines">
                 <button id="fiftyBtn" class="life-btn text-life" title="50/50">
                     <span>50/50</span>
@@ -144,7 +150,7 @@
 
         <div class="side-tip">
             <strong>Как се играе?</strong>
-            <p>Всеки верен отговор те качва по-близо до оценка 6.00.</p>
+            <p>Отговори правилно на въпросите, за да се изкачваш по стълбицата и да достигнеш оценка 6.00.</p>
         </div>
 
         <div class="side-tip">

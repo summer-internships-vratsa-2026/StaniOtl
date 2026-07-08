@@ -21,6 +21,7 @@ const groupsList = document.getElementById("groupsList");
 
 const helpTimerInput = document.getElementById("helpTimerInput");
 const saveTimerBtn = document.getElementById("saveTimerBtn");
+const saveCountBtn = document.getElementById("saveCountBtn");
 const questionCountSelect = document.getElementById("questionCountSelect");
 const gradingStartInput = document.getElementById("gradingStartInput");
 const gradingEndInput = document.getElementById("gradingEndInput");
@@ -66,6 +67,13 @@ if (saveTimerBtn) {
     saveTimerBtn.addEventListener("click", function (event) {
         event.preventDefault();
         saveHelpTimer();
+    });
+}
+
+if (saveCountBtn) {
+    saveCountBtn.addEventListener("click", function (event) {
+        event.preventDefault();
+        saveQuestionCount();
     });
 }
 
@@ -179,6 +187,24 @@ function removeScopedSetting(key) {
     localStorage.removeItem(getScopedStorageKey(key));
 }
 
+function saveQuestionCount() {
+    if (!questionCountSelect) {
+        return;
+    }
+
+    const value = Number(questionCountSelect.value);
+
+    if (!Number.isFinite(value)) {
+        messageBox.textContent = "Моля, въведи валиден брой въпроси.";
+        return;
+    }
+
+    const normalizedValue = Math.max(3, Math.round(value));
+    questionCountSelect.value = String(normalizedValue);
+    setScopedSetting("selectedQuestionCount", normalizedValue);
+    messageBox.textContent = `Броят въпроси е запазен: ${normalizedValue}.`;
+}
+
 function saveGradingSettings() {
     const start = Number(gradingStartInput?.value);
     const end = Number(gradingEndInput?.value);
@@ -217,13 +243,11 @@ function loadGradingSettings() {
 
 if (questionCountSelect) {
     questionCountSelect.addEventListener("input", () => {
-        const value = Number(questionCountSelect.value);
+        saveQuestionCount();
+    });
 
-        if (Number.isFinite(value)) {
-            const normalizedValue = Math.max(3, Math.round(value));
-            questionCountSelect.value = String(normalizedValue);
-            setScopedSetting("selectedQuestionCount", normalizedValue);
-        }
+    questionCountSelect.addEventListener("change", () => {
+        saveQuestionCount();
     });
 }
 

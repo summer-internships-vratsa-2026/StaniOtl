@@ -458,6 +458,21 @@ async function saveCurrentQuestionsAsGroup() {
         return;
     }
 
+    const { data: sessionData, error: sessionError } = await supabaseClient.auth.getSession();
+
+    if (sessionError) {
+        console.error("Грешка при проверка на профила:", sessionError);
+        messageBox.textContent = "Грешка при проверка на профила.";
+        return;
+    }
+
+    const user = sessionData?.session?.user;
+
+    if (!user) {
+        messageBox.textContent = "Трябва да си влязъл в профила си, за да запазиш група.";
+        return;
+    }
+
     const questionsToSave = questions.slice(0, neededQuestions);
 
     const { data, error } = await supabaseClient
@@ -465,7 +480,8 @@ async function saveCurrentQuestionsAsGroup() {
         .insert([
             {
                 name: groupName,
-                questions: questionsToSave
+                questions: questionsToSave,
+                owner_id: user.id
             }
         ])
         .select()
@@ -481,7 +497,7 @@ async function saveCurrentQuestionsAsGroup() {
     localStorage.setItem(getScopedStorageKey("customQuestions"), JSON.stringify(data.questions));
     setScopedSetting(DEFAULT_QUESTIONS_MODE_KEY, "false");
     setScopedSetting("activeQuestionGroupName", data.name);
-    setScopedSetting("selectedQuestionCount", neededQuestions);
+    setScopedSetting("selectedQuestionCount", data.questions.length);
 
     groupNameInput.value = "";
 
@@ -505,6 +521,9 @@ async function renderQuestionGroups() {
     }
 
     const activeGroupId = localStorage.getItem(getScopedStorageKey(ACTIVE_GROUP_KEY));
+
+    const { data: sessionData } = await supabaseClient.auth.getSession();
+    const currentUserId = sessionData?.session?.user?.id || null;
 
     groupsList.innerHTML = "";
 
@@ -543,6 +562,8 @@ async function renderQuestionGroups() {
             div.classList.add("active-group");
         }
 
+        const isOwner = currentUserId && group.owner_id === currentUserId;
+
         const createdDate = group.created_at
             ? new Date(group.created_at).toLocaleString("bg-BG")
             : "няма дата";
@@ -561,13 +582,19 @@ async function renderQuestionGroups() {
                     Избери за игра
                 </button>
 
-                <button class="edit-group-btn" onclick="loadGroupForEditing('${group.id}')">
-                    Зареди за редакция
-                </button>
+                ${
+                    isOwner
+                        ? `
+                            <button class="edit-group-btn" onclick="loadGroupForEditing('${group.id}')">
+                                Зареди за редакция
+                            </button>
 
-                <button class="delete-group-btn" onclick="deleteQuestionGroup('${group.id}')">
-                    Изтрий
-                </button>
+                            <button class="delete-group-btn" onclick="deleteQuestionGroup('${group.id}')">
+                                Изтрий
+                            </button>
+                        `
+                        : ""
+                }
             </div>
         `;
 
@@ -612,6 +639,14 @@ async function loadGroupForEditing(groupId) {
         return;
     }
 
+    const { data: sessionData } = await supabaseClient.auth.getSession();
+    const currentUserId = sessionData?.session?.user?.id || null;
+
+    if (data.owner_id !== currentUserId) {
+        messageBox.textContent = "Можеш да редактираш само групи, които ти си създал.";
+        return;
+    }
+
     localStorage.setItem(getScopedStorageKey("customQuestions"), JSON.stringify(data.questions));
     localStorage.setItem(getScopedStorageKey(ACTIVE_GROUP_KEY), data.id);
     setScopedSetting(DEFAULT_QUESTIONS_MODE_KEY, "false");
@@ -642,7 +677,7 @@ async function deleteQuestionGroup(groupId) {
 
     if (error) {
         console.error("Грешка при изтриване от Supabase:", error);
-        messageBox.textContent = "Грешка при изтриване на групата.";
+        messageBox.textContent = "Можеш да изтриваш само групи, които ти си създал.";
         return;
     }
 

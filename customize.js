@@ -32,14 +32,60 @@ const ACTIVE_GROUP_KEY = "activeQuestionGroupId";
 const DEFAULT_QUESTIONS_MODE_KEY = "useDefaultQuestions";
 const HELP_TIMER_KEY = "helpTimerSeconds";
 
+const SOUND_MUTED_KEY = "soundMuted";
+
+function isSoundMuted() {
+    return localStorage.getItem(SOUND_MUTED_KEY) === "true";
+}
+
+function updateSoundToggleButton() {
+    const soundToggleBtn = document.getElementById("soundToggleBtn");
+
+    if (!soundToggleBtn) {
+        return;
+    }
+
+    if (isSoundMuted()) {
+        soundToggleBtn.textContent = "🔇 Изключен";
+        soundToggleBtn.title = "Звукът е изключен";
+        soundToggleBtn.classList.add("sound-off");
+    } else {
+        soundToggleBtn.textContent = "🔊 Включен";
+        soundToggleBtn.title = "Звукът е включен";
+        soundToggleBtn.classList.remove("sound-off");
+    }
+}
+
+function setupSoundToggle() {
+    const soundToggleBtn = document.getElementById("soundToggleBtn");
+
+    if (!soundToggleBtn) {
+        return;
+    }
+
+    updateSoundToggleButton();
+
+    soundToggleBtn.addEventListener("click", function () {
+        const newValue = !isSoundMuted();
+
+        localStorage.setItem(SOUND_MUTED_KEY, String(newValue));
+        updateSoundToggleButton();
+    });
+}
 const customizeSounds = {
     lifeline: new Audio("sounds/lifeline.mp3")
 };
 
 function playCustomizeSound(name) {
+    if (isSoundMuted()) {
+        return;
+    }
+
     const sound = customizeSounds[name];
 
-    if (!sound) return;
+    if (!sound) {
+        return;
+    }
 
     sound.currentTime = 0;
     sound.play().catch(() => {});
@@ -763,3 +809,4 @@ renderQuestions();
 renderQuestionGroups();
 loadHelpTimerSetting();
 loadGradingSettings();
+setupSoundToggle();

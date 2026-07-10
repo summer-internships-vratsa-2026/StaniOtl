@@ -1374,38 +1374,37 @@ button {
     margin: 0 auto 28px !important;
     text-align: center !important;
 }
-/* ABSOLUTE FINAL FIX - SOUND BUTTON NO MOVEMENT */
+/* =====================================
+   SOUND BUTTON - STABLE UNDER SOCIAL ICONS
+   ===================================== */
 
+/* Desktop */
 #soundToggleBtn {
-    position: fixed !important;
+    position: absolute !important;
 
-    top: 76px !important;
-    left: calc(50% - 72.5px) !important;
+    top: 78px !important;
+    left: 50% !important;
     right: auto !important;
     bottom: auto !important;
 
-    width: 145px !important;
-    min-width: 145px !important;
-    max-width: 145px !important;
+    transform: translateX(-50%) !important;
+
+    width: 150px !important;
+    min-width: 150px !important;
+    max-width: 150px !important;
 
     height: 44px !important;
     min-height: 44px !important;
     max-height: 44px !important;
 
     margin: 0 !important;
-    padding: 0 12px !important;
-
-    transform: none !important;
-    translate: none !important;
-    scale: none !important;
-    rotate: none !important;
+    padding: 0 !important;
 
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
-    gap: 6px !important;
 
-    z-index: 9999 !important;
+    z-index: 25 !important;
 
     border-radius: 999px !important;
     font-weight: 800 !important;
@@ -1414,130 +1413,38 @@ button {
     text-align: center !important;
     white-space: nowrap !important;
 
-    transition: none !important;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease !important;
     animation: none !important;
 }
 
-/* Никакво движение при hover, focus, active */
+/* Никакво движение при hover/focus/click */
 #soundToggleBtn:hover,
 #soundToggleBtn:focus,
 #soundToggleBtn:active,
 #soundToggleBtn.sound-off:hover,
 #soundToggleBtn.sound-off:focus,
 #soundToggleBtn.sound-off:active {
-    top: 76px !important;
-    left: calc(50% - 72.5px) !important;
-    transform: none !important;
-    translate: none !important;
-    scale: none !important;
-    rotate: none !important;
-    margin: 0 !important;
-    transition: none !important;
-    animation: none !important;
-}
-
-/* Включен звук */
-#soundToggleBtn:not(.sound-off) {
-    background: linear-gradient(135deg, #f5c542, #ffdf6b) !important;
-    color: #071039 !important;
-    border: 2px solid #f5c542 !important;
-    box-shadow: 0 0 18px rgba(245, 197, 66, 0.45) !important;
-}
-
-/* Изключен звук */
-#soundToggleBtn.sound-off {
-    background: linear-gradient(135deg, #30364f, #11182f) !important;
-    color: #ffffff !important;
-    border: 2px solid #ff5c5c !important;
-    box-shadow: 0 0 16px rgba(255, 92, 92, 0.35) !important;
-}
-
-/* Телефон */
-@media (max-width: 768px) {
-    #soundToggleBtn,
-    #soundToggleBtn:hover,
-    #soundToggleBtn:focus,
-    #soundToggleBtn:active,
-    #soundToggleBtn.sound-off:hover,
-    #soundToggleBtn.sound-off:focus,
-    #soundToggleBtn.sound-off:active {
-        position: fixed !important;
-
-        top: 118px !important;
-        left: calc(50% - 72.5px) !important;
-        right: auto !important;
-        bottom: auto !important;
-
-        width: 145px !important;
-        min-width: 145px !important;
-        max-width: 145px !important;
-
-        height: 44px !important;
-        min-height: 44px !important;
-        max-height: 44px !important;
-
-        margin: 0 !important;
-        padding: 0 12px !important;
-
-        transform: none !important;
-        translate: none !important;
-        scale: none !important;
-        rotate: none !important;
-
-        transition: none !important;
-        animation: none !important;
-    }
-}
-/* SOUND BUTTON - STAYS UNDER SOCIAL ICONS, DOES NOT FOLLOW SCROLL */
-
-#soundToggleBtn {
     position: absolute !important;
 
-    top: 82px !important;
+    top: 78px !important;
     left: 50% !important;
     right: auto !important;
     bottom: auto !important;
 
     transform: translateX(-50%) !important;
 
-    width: 145px !important;
-    min-width: 145px !important;
-    max-width: 145px !important;
+    width: 150px !important;
+    min-width: 150px !important;
+    max-width: 150px !important;
 
     height: 44px !important;
     min-height: 44px !important;
     max-height: 44px !important;
 
     margin: 0 !important;
-    padding: 0 12px !important;
+    padding: 0 !important;
 
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    gap: 6px !important;
-
-    z-index: 9999 !important;
-
-    border-radius: 999px !important;
-    font-weight: 800 !important;
-    font-size: 14px !important;
-    line-height: 1 !important;
-    text-align: center !important;
-    white-space: nowrap !important;
-
-    transition: none !important;
     animation: none !important;
-}
-
-/* Никакво местене при hover */
-#soundToggleBtn:hover,
-#soundToggleBtn:focus,
-#soundToggleBtn:active {
-    position: absolute !important;
-    top: 82px !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    margin: 0 !important;
 }
 
 /* Включен звук */
@@ -1555,15 +1462,39 @@ button {
     border: 2px solid #ff5c5c !important;
     box-shadow: 0 0 16px rgba(255, 92, 92, 0.35) !important;
 }
+
+/* Mobile */
 @media (max-width: 768px) {
     #soundToggleBtn,
     #soundToggleBtn:hover,
     #soundToggleBtn:focus,
-    #soundToggleBtn:active {
-        position: absolute !important;
-        top: 125px !important;
-        left: 50% !important;
-        transform: translateX(-50%) !important;
-        margin: 0 !important;
+    #soundToggleBtn:active,
+    #soundToggleBtn.sound-off,
+    #soundToggleBtn.sound-off:hover,
+    #soundToggleBtn.sound-off:focus,
+    #soundToggleBtn.sound-off:active {
+        position: static !important;
+
+        width: 150px !important;
+        min-width: 150px !important;
+        max-width: 150px !important;
+
+        height: 44px !important;
+        min-height: 44px !important;
+        max-height: 44px !important;
+
+        margin: 0 auto 18px !important;
+        padding: 0 !important;
+
+        transform: none !important;
+        animation: none !important;
+
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+
+    .social-icons {
+        margin-bottom: 10px !important;
     }
 }

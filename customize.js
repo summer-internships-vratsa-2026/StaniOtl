@@ -31,6 +31,19 @@ const ACTIVE_GROUP_KEY = "activeQuestionGroupId";
 const DEFAULT_QUESTIONS_MODE_KEY = "useDefaultQuestions";
 const HELP_TIMER_KEY = "helpTimerSeconds";
 
+const customizeSounds = {
+    lifeline: new Audio("sounds/lifeline.mp3")
+};
+
+function playCustomizeSound(name) {
+    const sound = customizeSounds[name];
+
+    if (!sound) return;
+
+    sound.currentTime = 0;
+    sound.play().catch(() => {});
+}
+
 if (addQuestionBtn) {
     addQuestionBtn.addEventListener("click", function (event) {
         event.preventDefault();
@@ -187,6 +200,16 @@ function removeScopedSetting(key) {
     localStorage.removeItem(getScopedStorageKey(key));
 }
 
+function getSelectedQuestionCount() {
+    const value = Number(questionCountSelect?.value);
+
+    if (!Number.isFinite(value)) {
+        return 15;
+    }
+
+    return Math.max(3, Math.round(value));
+}
+
 function saveQuestionCount() {
     if (!questionCountSelect) {
         return;
@@ -202,6 +225,7 @@ function saveQuestionCount() {
     const normalizedValue = Math.max(3, Math.round(value));
     questionCountSelect.value = String(normalizedValue);
     setScopedSetting("selectedQuestionCount", normalizedValue);
+    playCustomizeSound("lifeline");
     messageBox.textContent = `Броят въпроси е запазен: ${normalizedValue}.`;
 }
 
@@ -226,6 +250,7 @@ function saveGradingSettings() {
 
     setScopedSetting("gradingStart", start.toFixed(2));
     setScopedSetting("gradingEnd", end.toFixed(2));
+    playCustomizeSound("lifeline");
     messageBox.textContent = `Оценяването е запазено: ${start.toFixed(2)} - ${end.toFixed(2)}.`;
 }
 
@@ -272,20 +297,21 @@ function addQuestion() {
         teacher: hint || "Няма добавена подсказка от учител.",
         explanation: explanation || "Няма добавено пояснение за този въпрос."
     };
+const questions = getSavedQuestions();
+questions.push(newQuestion);
+saveQuestions(questions);
 
-    const questions = getSavedQuestions();
-    questions.push(newQuestion);
-    saveQuestions(questions);
+playCustomizeSound("lifeline");
 
-    setScopedSetting(DEFAULT_QUESTIONS_MODE_KEY, "false");
-
+setScopedSetting(DEFAULT_QUESTIONS_MODE_KEY, "false");
     const totalQuestions = questions.length;
+const neededQuestions = getSelectedQuestionCount();
 
-    if (totalQuestions < 15) {
-        messageBox.textContent = `Въпросът е добавен. Трябват ти още ${15 - totalQuestions} въпроса за пълна игра.`;
-    } else {
-        messageBox.textContent = "Готово! Имаш минимум 15 въпроса и можеш да ги запазиш като готова група.";
-    }
+if (totalQuestions < neededQuestions) {
+    messageBox.textContent = `Въпросът е добавен. Трябват ти още ${neededQuestions - totalQuestions} въпроса за тази група.`;
+} else {
+    messageBox.textContent = `Готово! Имаш минимум ${neededQuestions} въпроса и можеш да ги запазиш като готова група.`;
+}
 
     questionInput.value = "";
     answerA.value = "";
@@ -314,15 +340,16 @@ function renderQuestions() {
     questionsList.innerHTML = "";
 
     const count = questions.length;
-    const remaining = Math.max(15 - count, 0);
+const neededQuestions = getSelectedQuestionCount();
+const remaining = Math.max(neededQuestions - count, 0);
 
-    if (questionCounter) {
-        if (count < 15) {
-            questionCounter.textContent = `Добавени въпроси: ${count} / 15. Остават още ${remaining} въпроса.`;
-        } else {
-            questionCounter.textContent = `Добавени въпроси: ${count}. Готово! Имаш достатъчно въпроси за цяла игра.`;
-        }
+if (questionCounter) {
+    if (count < neededQuestions) {
+        questionCounter.textContent = `Добавени въпроси: ${count} / ${neededQuestions}. Остават още ${remaining} въпроса.`;
+    } else {
+        questionCounter.textContent = `Добавени въпроси: ${count}. Готово! Имаш достатъчно въпроси за избраната игра.`;
     }
+}
 
     if (questions.length === 0) {
         questionsList.innerHTML = "<p>Все още няма добавени персонализирани въпроси.</p>";
@@ -407,6 +434,7 @@ async function getQuestionGroups() {
 
 async function saveCurrentQuestionsAsGroup() {
     const questions = getSavedQuestions();
+    const neededQuestions = getSelectedQuestionCount();
 
     if (!groupNameInput) {
         messageBox.textContent = "Липсва поле за име на групата.";
@@ -416,8 +444,13 @@ async function saveCurrentQuestionsAsGroup() {
 
     const groupName = groupNameInput.value.trim();
 
-    if (questions.length < 15) {
-        messageBox.textContent = "Трябва да имаш минимум 15 въпроса, за да запазиш готова група.";
+    if (questions.length < neededQuestions) {
+        messageBox.textContent = `Трябва да имаш минимум ${neededQuestions} въпроса, за да запазиш тази група.`;
+        return;
+    }
+
+    if (neededQuestions < 3) {
+        messageBox.textContent = "Минималният брой въпроси за група е 3.";
         return;
     }
 
@@ -426,16 +459,11 @@ async function saveCurrentQuestionsAsGroup() {
         return;
     }
 
-    if (typeof supabaseClient === "undefined") {
-        messageBox.textContent = "Supabase не е зареден. Провери supabase-config.js.";
-        console.error("supabaseClient is undefined");
-        return;
-    }
-
     const newGroup = {
         id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
         name: groupName,
-        questions: questions.slice(0, 15),
+        questions: questions.slice(0, neededQuestions),
+        questionCount: neededQuestions,
         created_at: new Date().toISOString()
     };
 
@@ -447,10 +475,11 @@ async function saveCurrentQuestionsAsGroup() {
     localStorage.setItem(getScopedStorageKey("customQuestions"), JSON.stringify(newGroup.questions));
     setScopedSetting(DEFAULT_QUESTIONS_MODE_KEY, "false");
     setScopedSetting("activeQuestionGroupName", groupName);
+    setScopedSetting("selectedQuestionCount", neededQuestions);
 
     groupNameInput.value = "";
-
-    messageBox.textContent = `Групата „${newGroup.name}“ е запазена успешно и избрана за игра.`;
+    playCustomizeSound("lifeline");
+    messageBox.textContent = `Групата „${newGroup.name}“ е запазена успешно с ${neededQuestions} въпроса.`;
 
     await renderQuestionGroups();
 }
@@ -604,7 +633,7 @@ function saveHelpTimer() {
     }
 
     localStorage.setItem(HELP_TIMER_KEY, seconds.toString());
-
+    playCustomizeSound("lifeline");
     messageBox.textContent = `Таймерът за помощ е запазен: ${seconds} секунди.`;
 }
 

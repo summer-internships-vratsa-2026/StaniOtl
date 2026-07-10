@@ -1,3 +1,20 @@
+const sounds = {
+    correct: new Audio("sounds/correct.mp3"),
+    wrong: new Audio("sounds/wrong.mp3"),
+    win: new Audio("sounds/win.mp3"),
+    lose: new Audio("sounds/lose.mp3"),
+    lifeline: new Audio("sounds/lifeline.mp3")
+};
+
+function playSound(name) {
+    const sound = sounds[name];
+
+    if (!sound) return;
+
+    sound.currentTime = 0;
+    sound.play().catch(() => {});
+}
+
 const defaultQuestions = [
    {
     question: "Коя е столицата на България?",
@@ -768,6 +785,7 @@ function selectAnswer(index) {
     });
 
     if (index === correctIndex) {
+        playSound("correct");
         answerButtons[index].classList.add("correct");
 
         const explanation = q.explanation || q.teacher || "Няма добавено пояснение за този въпрос.";
@@ -787,6 +805,7 @@ function selectAnswer(index) {
             nextBtn.style.display = "inline-block";
         }
     } else {
+        playSound("wrong");
         answerButtons[index].classList.add("wrong");
         answerButtons[correctIndex].classList.add("correct");
 
@@ -817,6 +836,7 @@ function nextQuestion() {
 }
 
 function useFiftyFifty() {
+    playSound("lifeline");
     if (usedFifty || answered) {
         return;
     }
@@ -919,6 +939,7 @@ function showHelpTimer(type, seconds, question) {
     `;
 }
 function askClassmate() {
+    playSound("lifeline");
     if (usedFriend || answered) {
         return;
     }
@@ -955,6 +976,7 @@ function askClassmate() {
 }
 
 function askTeacher() {
+    playSound("lifeline");
     if (usedTeacher || answered) {
         return;
     }
@@ -1017,10 +1039,12 @@ function endGame(won) {
     const finalMessage = document.getElementById("finalMessage");
 
     if (won) {
+        playSound("win");
         finalGrade.textContent = "Отличен 6.00!";
         finalMessage.textContent = "Поздравления! Ти стана отличник!";
         showConfetti();
     } else {
+        playSound("lose");
         const achievedIndex = Math.max(currentQuestion - 1, 0);
         const grade = currentQuestion === 0 ? "2.00" : levels[achievedIndex];
 

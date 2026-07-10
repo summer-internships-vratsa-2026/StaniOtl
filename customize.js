@@ -438,48 +438,58 @@ async function saveCurrentQuestionsAsGroup() {
 
     if (!groupNameInput) {
         messageBox.textContent = "Липсва поле за име на групата.";
-        console.error("Липсва елемент с id='groupNameInput'");
         return;
     }
 
     const groupName = groupNameInput.value.trim();
-
-    if (questions.length < neededQuestions) {
-        messageBox.textContent = `Трябва да имаш минимум ${neededQuestions} въпроса, за да запазиш тази група.`;
-        return;
-    }
-
-    if (neededQuestions < 3) {
-        messageBox.textContent = "Минималният брой въпроси за група е 3.";
-        return;
-    }
 
     if (!groupName) {
         messageBox.textContent = "Моля, въведи име на групата.";
         return;
     }
 
-    const newGroup = {
-        id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
-        name: groupName,
-        questions: questions.slice(0, neededQuestions),
-        questionCount: neededQuestions,
-        created_at: new Date().toISOString()
-    };
+    if (questions.length < neededQuestions) {
+        messageBox.textContent = `Трябва да имаш минимум ${neededQuestions} въпроса, за да запазиш тази група.`;
+        return;
+    }
 
-    const groups = getSavedQuestionGroups();
-    groups.unshift(newGroup);
-    saveQuestionGroups(groups);
+    if (typeof supabaseClient === "undefined") {
+        messageBox.textContent = "Supabase не е зареден. Провери supabase-config.js.";
+        return;
+    }
 
-    localStorage.setItem(getScopedStorageKey(ACTIVE_GROUP_KEY), newGroup.id);
-    localStorage.setItem(getScopedStorageKey("customQuestions"), JSON.stringify(newGroup.questions));
+    const questionsToSave = questions.slice(0, neededQuestions);
+
+    const { data, error } = await supabaseClient
+        .from("question_groups")
+        .insert([
+            {
+                name: groupName,
+                questions: questionsToSave
+            }
+        ])
+        .select()
+        .single();
+
+    if (error) {
+        console.error("Грешка при запис в Supabase:", error);
+        messageBox.textContent = "Грешка при запазване на групата в Supabase.";
+        return;
+    }
+
+    localStorage.setItem(getScopedStorageKey(ACTIVE_GROUP_KEY), data.id);
+    localStorage.setItem(getScopedStorageKey("customQuestions"), JSON.stringify(data.questions));
     setScopedSetting(DEFAULT_QUESTIONS_MODE_KEY, "false");
-    setScopedSetting("activeQuestionGroupName", groupName);
+    setScopedSetting("activeQuestionGroupName", data.name);
     setScopedSetting("selectedQuestionCount", neededQuestions);
 
     groupNameInput.value = "";
-    playCustomizeSound("lifeline");
-    messageBox.textContent = `Групата „${newGroup.name}“ е запазена успешно с ${neededQuestions} въпроса.`;
+
+    if (typeof playCustomizeSound === "function") {
+        playCustomizeSound("lifeline");
+    }
+
+    messageBox.textContent = `Групата „${data.name}“ е запазена успешно в Supabase.`;
 
     await renderQuestionGroups();
 }
@@ -489,7 +499,11 @@ async function renderQuestionGroups() {
         return;
     }
 
-    const groups = getSavedQuestionGroups();
+    if (typeof supabaseClient === "undefined") {
+        groupsList.innerHTML = "<p>Supabase не е зареден.</p>";
+        return;
+    }
+
     const activeGroupId = localStorage.getItem(getScopedStorageKey(ACTIVE_GROUP_KEY));
 
     groupsList.innerHTML = "";
@@ -498,13 +512,26 @@ async function renderQuestionGroups() {
         groupsList.innerHTML += `
             <div class="group-item active-group">
                 <div class="group-title">Стандартни въпроси — избрани за игра</div>
-                <div class="group-info">Играта ще използва вградените default въпроси.</div>
+                <div class="group-info">Играта ще използва вградените стандартни въпроси.</div>
             </div>
         `;
     }
 
+    const { data, error } = await supabaseClient
+        .from("question_groups")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+    if (error) {
+        console.error("Грешка при зареждане от Supabase:", error);
+        groupsList.innerHTML += "<p>Грешка при зареждане на групите от Supabase.</p>";
+        return;
+    }
+
+    const groups = data || [];
+
     if (groups.length === 0) {
-        groupsList.innerHTML += "<p>Все още няма запазени групи въпроси в Supabase.</p>";
+        groupsList.innerHTML += "<p>Все още няма запазени групи въпроси.</p>";
         return;
     }
 
@@ -549,39 +576,53 @@ async function renderQuestionGroups() {
 }
 
 async function useQuestionGroup(groupId) {
-    const groups = getSavedQuestionGroups();
-    const selectedGroup = groups.find(group => group.id === groupId);
+    const { data, error } = await supabaseClient
+        .from("question_groups")
+        .select("*")
+        .eq("id", groupId)
+        .single();
 
-    if (!selectedGroup) {
+    if (error || !data) {
+        console.error("Грешка при избор на група:", error);
         messageBox.textContent = "Групата не беше намерена.";
         return;
     }
 
-    localStorage.setItem(getScopedStorageKey(ACTIVE_GROUP_KEY), selectedGroup.id);
-    localStorage.setItem(getScopedStorageKey("customQuestions"), JSON.stringify(selectedGroup.questions));
+    localStorage.setItem(getScopedStorageKey(ACTIVE_GROUP_KEY), data.id);
+    localStorage.setItem(getScopedStorageKey("customQuestions"), JSON.stringify(data.questions));
     setScopedSetting(DEFAULT_QUESTIONS_MODE_KEY, "false");
-    setScopedSetting("activeQuestionGroupName", selectedGroup.name);
+    setScopedSetting("activeQuestionGroupName", data.name);
+    setScopedSetting("selectedQuestionCount", data.questions.length);
 
-    messageBox.textContent = `Групата „${selectedGroup.name}“ е избрана за игра.`;
+    messageBox.textContent = `Групата „${data.name}“ е избрана за игра.`;
 
     await renderQuestionGroups();
 }
 
 async function loadGroupForEditing(groupId) {
-    const groups = getSavedQuestionGroups();
-    const selectedGroup = groups.find(group => group.id === groupId);
+    const { data, error } = await supabaseClient
+        .from("question_groups")
+        .select("*")
+        .eq("id", groupId)
+        .single();
 
-    if (!selectedGroup) {
+    if (error || !data) {
+        console.error("Грешка при зареждане за редакция:", error);
         messageBox.textContent = "Групата не беше намерена.";
         return;
     }
 
-    localStorage.setItem(getScopedStorageKey("customQuestions"), JSON.stringify(selectedGroup.questions));
-    localStorage.setItem(getScopedStorageKey(ACTIVE_GROUP_KEY), selectedGroup.id);
+    localStorage.setItem(getScopedStorageKey("customQuestions"), JSON.stringify(data.questions));
+    localStorage.setItem(getScopedStorageKey(ACTIVE_GROUP_KEY), data.id);
     setScopedSetting(DEFAULT_QUESTIONS_MODE_KEY, "false");
-    setScopedSetting("activeQuestionGroupName", selectedGroup.name);
+    setScopedSetting("activeQuestionGroupName", data.name);
+    setScopedSetting("selectedQuestionCount", data.questions.length);
 
-    messageBox.textContent = `Групата „${selectedGroup.name}“ е заредена за редакция.`;
+    if (questionCountSelect) {
+        questionCountSelect.value = data.questions.length;
+    }
+
+    messageBox.textContent = `Групата „${data.name}“ е заредена за редакция.`;
 
     renderQuestions();
     await renderQuestionGroups();
@@ -594,8 +635,16 @@ async function deleteQuestionGroup(groupId) {
         return;
     }
 
-    const groups = getSavedQuestionGroups().filter(group => group.id !== groupId);
-    saveQuestionGroups(groups);
+    const { error } = await supabaseClient
+        .from("question_groups")
+        .delete()
+        .eq("id", groupId);
+
+    if (error) {
+        console.error("Грешка при изтриване от Supabase:", error);
+        messageBox.textContent = "Грешка при изтриване на групата.";
+        return;
+    }
 
     const activeGroupId = localStorage.getItem(getScopedStorageKey(ACTIVE_GROUP_KEY));
 
@@ -605,7 +654,7 @@ async function deleteQuestionGroup(groupId) {
         removeScopedSetting("activeQuestionGroupName");
     }
 
-    messageBox.textContent = "Групата е изтрита.";
+    messageBox.textContent = "Групата е изтрита от Supabase.";
 
     await renderQuestionGroups();
 }

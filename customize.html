@@ -14,14 +14,13 @@
 
 <body>
 
-    <!-- Google tag (gtag.js) -->
+<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-52VF8VKG5H"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-52VF8VKG5H');
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-52VF8VKG5H");
 </script>
 
 <script type="text/javascript">
@@ -32,10 +31,10 @@
     })(window, document, "clarity", "script", "xj64g7rq12");
 </script>
 
-
 <a href="index.html" class="corner-logo">
     <img src="photos/logo.png" alt="Стани отличник лого">
 </a>
+
 <div class="social-icons">
     <a href="https://www.tiktok.com/@staniotlichnik?lang=en"
        target="_blank"
@@ -57,135 +56,150 @@
 <div id="accountWidget" class="account-widget"></div>
 
 <div class="customize-page">
+
     <div class="form-box">
         <h1 class="title">Персонализирай въпросите</h1>
-    <p class="subtitle">Създай свои въпроси за играта „Стани отличник“</p>
+        <p class="subtitle">Създай свои въпроси за играта „Стани отличник“</p>
 
-    <div class="form-group">
-        <label for="teacherHint">Подсказка от учител</label>
-        <textarea id="teacherHint" placeholder="Напиши подсказка..."></textarea>
-    </div>
+        <div class="form-group">
+            <label for="teacherHint">Подсказка от учител</label>
+            <textarea id="teacherHint" placeholder="Напиши подсказка..."></textarea>
+        </div>
 
-    <div class="form-group">
-        <label for="explanationInput">Пояснение след отговор</label>
-        <textarea id="explanationInput" placeholder="Обясни защо правилният отговор е правилен..."></textarea>
-    </div>
+        <div class="form-group">
+            <label for="explanationInput">Пояснение след отговор</label>
+            <textarea id="explanationInput" placeholder="Обясни защо правилният отговор е правилен..."></textarea>
+        </div>
 
-    <div class="form-group">
-        <label for="questionInput">Въпрос</label>
-        <textarea id="questionInput" placeholder="Напиши въпроса тук..."></textarea>
-    </div>
+        <div class="form-group">
+            <label for="questionInput">Въпрос</label>
+            <textarea id="questionInput" placeholder="Напиши въпроса тук..."></textarea>
+        </div>
 
-    <div class="form-group">
-        <label for="answerA">Отговор A</label>
-        <input type="text" id="answerA" placeholder="Първи отговор">
-    </div>
+        <div class="form-group">
+            <label for="answerA">Отговор A</label>
+            <input type="text" id="answerA" placeholder="Първи отговор">
+        </div>
 
-    <div class="form-group">
-        <label for="answerB">Отговор B</label>
-        <input type="text" id="answerB" placeholder="Втори отговор">
-    </div>
+        <div class="form-group">
+            <label for="answerB">Отговор B</label>
+            <input type="text" id="answerB" placeholder="Втори отговор">
+        </div>
 
-    <div class="form-group">
-        <label for="answerC">Отговор C</label>
-        <input type="text" id="answerC" placeholder="Трети отговор">
-    </div>
+        <div class="form-group">
+            <label for="answerC">Отговор C</label>
+            <input type="text" id="answerC" placeholder="Трети отговор">
+        </div>
 
-    <div class="form-group">
-        <label for="answerD">Отговор D</label>
-        <input type="text" id="answerD" placeholder="Четвърти отговор">
-    </div>
+        <div class="form-group">
+            <label for="answerD">Отговор D</label>
+            <input type="text" id="answerD" placeholder="Четвърти отговор">
+        </div>
 
-    <div class="form-group">
-        <label for="correctAnswer">Верен отговор</label>
-        <select id="correctAnswer">
-            <option value="0">A</option>
-            <option value="1">B</option>
-            <option value="2">C</option>
-            <option value="3">D</option>
-        </select>
-    </div>
+        <div class="form-group">
+            <label for="correctAnswer">Верен отговор</label>
+            <select id="correctAnswer">
+                <option value="0">A</option>
+                <option value="1">B</option>
+                <option value="2">C</option>
+                <option value="3">D</option>
+            </select>
+        </div>
 
- <div class="group-box">
-    <div class="form-group">
-        <label for="questionCountSelect">Брой въпроси за игра</label>
-       <input type="number" id="questionCountSelect" min="3" step="1" value="15">
-    </div>
+        <div class="quick-add-question">
+            <button type="button" id="addQuestionBtn" class="start-btn">
+                Добави въпрос
+            </button>
+        </div>
 
-    <button id="saveCountBtn" class="default-btn">
-        Запази броя
-    </button>
-</div>
+        <div class="question-count-box">
+            <label for="questionCountSelect">Брой въпроси за игра</label>
 
+            <div class="question-count-row">
+                <input type="number" id="questionCountSelect" min="3" step="1" value="15">
 
+                <button type="button" id="saveCountBtn" class="default-btn small-save-btn">
+                    Запази броя
+                </button>
+            </div>
+        </div>
 
-    <div class="group-box">
-    <h2>Настройка на таймера за помощ</h2>
+        <div class="group-box">
+            <h2>Настройка на таймера за помощ</h2>
 
-    <div class="form-group">
-        <label for="helpTimerInput">Време за помощ в секунди</label>
-        <input type="number" id="helpTimerInput" min="5" max="120" value="30">
-    </div>
+            <div class="form-group">
+                <label for="helpTimerInput">Време за помощ в секунди</label>
+                <input type="number" id="helpTimerInput" min="5" max="120" value="30">
+            </div>
 
-    <button id="saveTimerBtn" class="default-btn">
-        Запази таймера
-    </button>
-</div>
+            <button id="saveTimerBtn" class="default-btn">
+                Запази таймера
+            </button>
+        </div>
 
-<div class="group-box">
-    <h2>Персонализирано оценяване</h2>
+        <div class="group-box">
+            <h2>Персонализирано оценяване</h2>
 
-    <div class="form-group">
-        <label for="gradingStartInput">Начална оценка</label>
-        <input type="number" id="gradingStartInput" min="2" max="6" step="0.25" value="3">
-    </div>
+            <div class="form-group">
+                <label for="gradingStartInput">Начална оценка</label>
+                <input type="number" id="gradingStartInput" min="2" max="6" step="0.25" value="3">
+            </div>
 
-    <div class="form-group">
-        <label for="gradingEndInput">Крайна оценка</label>
-        <input type="number" id="gradingEndInput" min="2" max="6" step="0.25" value="6">
-    </div>
+            <div class="form-group">
+                <label for="gradingEndInput">Крайна оценка</label>
+                <input type="number" id="gradingEndInput" min="2" max="6" step="0.25" value="6">
+            </div>
 
-    <button id="saveGradingBtn" class="default-btn">
-        Запази оценяването
-    </button>
-</div>
+            <button id="saveGradingBtn" class="default-btn">
+                Запази оценяването
+            </button>
+        </div>
 
-<div class="group-box">
-    <h2>Запази група въпроси</h2>
+        <div class="group-box">
+            <h2>Запази група въпроси</h2>
 
-    <div class="form-group">
-        <label for="groupNameInput">Име на групата</label>
-        <input type="text" id="groupNameInput" placeholder="Например: История 5 клас">
-    </div>
+            <div class="form-group">
+                <label for="groupNameInput">Име на групата</label>
+                <input type="text" id="groupNameInput" placeholder="Например: История 5 клас">
+            </div>
 
-    <button id="saveGroupBtn" class="start-btn">Запази като готова група</button>
-</div>
+            <button id="saveGroupBtn" class="start-btn">
+                Запази като готова група
+            </button>
+        </div>
 
-<div class="group-box">
-    <h2>Готови групи въпроси</h2>
-    <div id="groupsList"></div>
-</div>
+        <div class="group-box">
+            <h2>Готови групи въпроси</h2>
 
-    <div class="form-buttons">
-    <button type="button" id="addQuestionBtn" class="start-btn">
-    Добави въпрос
-</button>
+            <input 
+                type="text" 
+                id="groupSearchInput" 
+                class="group-search-input"
+                placeholder="Търси готова група..."
+            >
 
-<button type="button" id="clearQuestionsBtn" class="restart-btn">
-    Изтрий всички персонализирани въпроси
-</button>
+            <div id="groupsList"></div>
+        </div>
 
-<button type="button" id="defaultQuestionsBtn" class="default-btn">
-    Използвай стандартните въпроси
-</button>
+        <div class="form-buttons">
+            <button type="button" id="clearQuestionsBtn" class="restart-btn">
+                Изтрий всички персонализирани въпроси
+            </button>
 
-    <a href="index.html" class="customize-btn">Към менюто</a>
-</div>
+            <button type="button" id="defaultQuestionsBtn" class="default-btn">
+                Използвай стандартните въпроси
+            </button>
 
-    <div class="saved-questions">
-        <h2 style="color: #f5c542; margin-bottom: 15px;">Запазени въпроси</h2>
-        <div id="questionsList"></div>
-    </div>
+            <a href="index.html" class="customize-btn">Към менюто</a>
+        </div>
+
+        <div class="saved-questions">
+            <h2 style="color: #f5c542; margin-bottom: 15px;">
+                Запазени въпроси
+            </h2>
+
+            <div id="questionsList"></div>
+        </div>
     </div>
 
     <aside class="instructions-sidebar">
@@ -197,6 +211,7 @@
             Добавени въпроси: 0 / 15
         </div>
     </aside>
+
 </div>
 
 </body>

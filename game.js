@@ -490,7 +490,11 @@ function loadSavedQuestions() {
             return parsedQuestions;
         }
 
-        alert("За персонализирана игра трябва да имаш поне 1 въпрос. Засега ще се заредят стандартните въпроси.");
+        console.warn("Няма персонализирани въпроси. Зареждат се стандартните въпроси.");
+
+setScopedSetting(DEFAULT_QUESTIONS_MODE_KEY, "true");
+localStorage.removeItem(getScopedStorageKey(ACTIVE_GROUP_KEY));
+setScopedSetting("activeQuestionGroupName", "Стандартни въпроси");
         return defaultQuestions;
 
     } catch (error) {

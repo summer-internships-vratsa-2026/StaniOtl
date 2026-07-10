@@ -18,6 +18,7 @@ const questionCounter = document.getElementById("questionCounter");
 const groupNameInput = document.getElementById("groupNameInput");
 const saveGroupBtn = document.getElementById("saveGroupBtn");
 const groupsList = document.getElementById("groupsList");
+const groupSearchInput = document.getElementById("groupSearchInput");
 
 const helpTimerInput = document.getElementById("helpTimerInput");
 const saveTimerBtn = document.getElementById("saveTimerBtn");
@@ -96,6 +97,13 @@ if (saveGradingBtn) {
         saveGradingSettings();
     });
 }
+
+if (groupSearchInput) {
+    groupSearchInput.addEventListener("input", function () {
+        renderQuestionGroups();
+    });
+}
+
 function escapeHTML(text) {
     return String(text || "")
         .replaceAll("&", "&amp;")
@@ -340,16 +348,16 @@ function renderQuestions() {
     questionsList.innerHTML = "";
 
     const count = questions.length;
-const neededQuestions = getSelectedQuestionCount();
-const remaining = Math.max(neededQuestions - count, 0);
+    const neededQuestions = getSelectedQuestionCount();
+    const remaining = Math.max(neededQuestions - count, 0);
 
-if (questionCounter) {
-    if (count < neededQuestions) {
-        questionCounter.textContent = `Добавени въпроси: ${count} / ${neededQuestions}. Остават още ${remaining} въпроса.`;
-    } else {
-        questionCounter.textContent = `Добавени въпроси: ${count}. Готово! Имаш достатъчно въпроси за избраната игра.`;
+    if (questionCounter) {
+        if (count < neededQuestions) {
+            questionCounter.textContent = `Добавени въпроси: ${count} / ${neededQuestions}. Остават още ${remaining} въпроса.`;
+        } else {
+            questionCounter.textContent = `Добавени въпроси: ${count}. Готово! Имаш достатъчно въпроси за избраната игра.`;
+        }
     }
-}
 
     if (questions.length === 0) {
         questionsList.innerHTML = "<p>Все още няма добавени персонализирани въпроси.</p>";
@@ -360,13 +368,15 @@ if (questionCounter) {
         const div = document.createElement("div");
         div.className = "saved-question";
 
+        const answers = Array.isArray(q.answers) ? q.answers : ["", "", "", ""];
+
         div.innerHTML = `
             <strong>${index + 1}. ${escapeHTML(q.question)}</strong>
-            <p>A: ${escapeHTML(q.answers[0])}</p>
-            <p>B: ${escapeHTML(q.answers[1])}</p>
-            <p>C: ${escapeHTML(q.answers[2])}</p>
-            <p>D: ${escapeHTML(q.answers[3])}</p>
-            <p><strong>Верен отговор:</strong> ${String.fromCharCode(65 + q.correct)}</p>
+            <p>A: ${escapeHTML(answers[0])}</p>
+            <p>B: ${escapeHTML(answers[1])}</p>
+            <p>C: ${escapeHTML(answers[2])}</p>
+            <p>D: ${escapeHTML(answers[3])}</p>
+            <p><strong>Верен отговор:</strong> ${String.fromCharCode(65 + Number(q.correct || 0))}</p>
             <p><strong>Подсказка от учител:</strong> ${escapeHTML(q.teacher || "Няма добавена подсказка.")}</p>
             <p><strong>Пояснение:</strong> ${escapeHTML(q.explanation || "Няма добавено пояснение.")}</p>
             <button class="delete-btn" onclick="deleteQuestion(${index})">Изтрий</button>
@@ -403,11 +413,20 @@ function clearQuestions() {
 
 function useDefaultQuestions() {
     setScopedSetting(DEFAULT_QUESTIONS_MODE_KEY, "true");
+
     localStorage.removeItem(getScopedStorageKey(ACTIVE_GROUP_KEY));
+    localStorage.removeItem(getScopedStorageKey("customQuestions"));
+
     setScopedSetting("activeQuestionGroupName", "Стандартни въпроси");
+    setScopedSetting("selectedQuestionCount", "15");
+
+    if (questionCountSelect) {
+        questionCountSelect.value = "15";
+    }
 
     messageBox.textContent = "Стандартните въпроси са избрани за игра.";
 
+    renderQuestions();
     renderQuestionGroups();
 }
 
@@ -525,6 +544,10 @@ async function renderQuestionGroups() {
     const { data: sessionData } = await supabaseClient.auth.getSession();
     const currentUserId = sessionData?.session?.user?.id || null;
 
+    const searchText = groupSearchInput
+        ? groupSearchInput.value.trim().toLowerCase()
+        : "";
+
     groupsList.innerHTML = "";
 
     if (getScopedSetting(DEFAULT_QUESTIONS_MODE_KEY, "false") === "true") {
@@ -547,10 +570,24 @@ async function renderQuestionGroups() {
         return;
     }
 
-    const groups = data || [];
+    let groups = data || [];
+
+    if (searchText) {
+        groups = groups.filter(group => {
+            const groupName = String(group.name || "").toLowerCase();
+            const questionsText = Array.isArray(group.questions)
+                ? group.questions
+                    .map(q => `${q.question || ""} ${(q.answers || []).join(" ")}`)
+                    .join(" ")
+                    .toLowerCase()
+                : "";
+
+            return groupName.includes(searchText) || questionsText.includes(searchText);
+        });
+    }
 
     if (groups.length === 0) {
-        groupsList.innerHTML += "<p>Все още няма запазени групи въпроси.</p>";
+        groupsList.innerHTML += "<p>Няма намерени групи въпроси.</p>";
         return;
     }
 
@@ -623,7 +660,8 @@ async function useQuestionGroup(groupId) {
 
     messageBox.textContent = `Групата „${data.name}“ е избрана за игра.`;
 
-    await renderQuestionGroups();
+renderQuestions();
+await renderQuestionGroups();
 }
 
 async function loadGroupForEditing(groupId) {
